@@ -54,14 +54,49 @@ class Platform {
   }
 }
 
-const image = new Image()
-image.src = './sprites/platform.png'
+class GenericObject {
+  constructor({x, y, image}) {
+    this.position = {
+      x,
+      y
+    }
+    this.image = image;
+    this.width = image.width;
+    this.height = image.height;
+  }
+
+  draw() {
+    c.drawImage(this.image, this.position.x, this.position.y)
+  }
+}
+
+const platform = new Image();
+platform.src = './sprites/platform.png';
+
+const hills = new Image();
+hills.src = './sprites/hills.png';
+
+const background = new Image();
+background.src = './sprites/background.png';
 
 const player = new Player();
 const platforms = [new Platform({
-  x: -1, y: 470, image
+  x: -1, y: 470, image: platform
 }), new Platform({
-  x: image.width - 3, y: 470, image})];
+  x: platform.width - 3, y: 470, image: platform})];
+
+const genericObjects = [
+  new GenericObject({
+    x: -1,
+    y: -1,
+    image: background
+  }),
+  new GenericObject({
+    x: -1,
+    y: -1,
+    image: hills
+  })
+]
 
 const keys = {
   right: {
@@ -78,6 +113,11 @@ function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = 'white';
   c.fillRect(0, 0, canvas.width, canvas.height);
+
+  genericObjects.forEach(GenericObject => {
+    GenericObject.draw()
+  })
+
   platforms.forEach(platform => {
     platform.draw();
   })
@@ -95,11 +135,17 @@ function animate() {
       platforms.forEach(platform => {
         platform.position.x -= 5
       })
+      genericObjects.forEach(GenericObject => {
+        GenericObject.position.x -= 3
+      })
     } else if (keys.left.pressed) {
       scrollOffset -= 5
       platforms.forEach(platform => {
         platform.position.x += 5
-      })
+      }),
+        genericObjects.forEach(GenericObject => {
+          GenericObject.position.x += 3
+        })
     }
   }
 

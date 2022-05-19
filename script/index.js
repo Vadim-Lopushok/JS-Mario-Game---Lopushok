@@ -19,16 +19,38 @@ class Player {
       x: 0,
       y: 0
     }
-    this.width = 30;
-    this.height = 30;
+    this.width = 66;
+    this.height = 150;
+    this.image = spriteStandRight;
+    this.frames = 0;
+    this.sprites = {
+      stand: {
+        right: spriteStandRight,
+        left: spriteStandLeft,
+        cropWidth: 177,
+        width: 66
+      },
+      run: {
+        right: spriteRunRight,
+        left: spriteRunLeft,
+        cropWidth: 341,
+        width: 127.875
+      }
+    }
+    this.currentSprite = this.sprites.stand.right;
+    this.currentCropWidth = 177;
   }
 
   draw() {
-    c.fillStyle = 'red';
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    c.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0, this.currentCropWidth, 400, this.position.x, this.position.y, this.width, this.height)
   }
 
   update() {
+    this.frames++
+
+    if (this.frames > 59 && (this.currentSprite === this.sprites.stand.right || this.currentSprite === this.sprites.stand.left)) this.frames = 0
+    else if (this.frames > 29 && (this.currentSprite === this.sprites.run.right || this.currentSprite === this.sprites.run.left)) this.frames = 0
+
     this.draw();
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
@@ -82,12 +104,25 @@ background.src = './sprites/background.png';
 let platformSmallTall = new Image();
 platformSmallTall.src = './sprites/platformSmallTall.png'
 
+let spriteRunLeft = new Image();
+spriteRunLeft.src = './sprites/spriteRunLeft.png'
+
+let spriteRunRight = new Image();
+spriteRunRight.src = './sprites/spriteRunRight.png'
+
+let spriteStandLeft = new Image();
+spriteStandLeft.src = './sprites/spriteStandLeft.png'
+
+let spriteStandRight = new Image();
+spriteStandRight.src = './sprites/spriteStandRight.png'
+
 let player = new Player();
 
 let platforms = [];
 
 let genericObjects = [];
 
+let  lastKey;
 let keys = {
   right: {
     pressed: false
@@ -206,6 +241,26 @@ function animate() {
     }
   })
 
+  // sprite Switch
+  if (keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right) {
+    player.frames = 1
+    player.currentSprite = player.sprites.run.right
+    player.currentCropWidth = player.sprites.run.cropWidth
+    player.width = player.sprites.run.width
+  } else  if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
+    player.currentSprite = player.sprites.run.left
+    player.currentCropWidth = player.sprites.run.cropWidth
+    player.width = player.sprites.run.width
+  } else  if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
+    player.currentSprite = player.sprites.stand.left
+    player.currentCropWidth = player.sprites.stand.cropWidth
+    player.width = player.sprites.stand.width
+  } else  if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
+    player.currentSprite = player.sprites.stand.right
+    player.currentCropWidth = player.sprites.stand.cropWidth
+    player.width = player.sprites.stand.width
+  }
+
   // win condition
   if (scrollOffset > platform.width * 5 + 300 - 2) {
     console.log('you win');
@@ -225,6 +280,7 @@ window.addEventListener('keydown', ({keyCode}) => {
     case 65:
       console.log('left');
       keys.left.pressed = true
+      lastKey = 'left'
       break;
 
     case 83:
@@ -234,6 +290,7 @@ window.addEventListener('keydown', ({keyCode}) => {
     case 68:
       console.log('right');
       keys.right.pressed = true
+      lastKey = 'right'
       break;
 
     case 87:

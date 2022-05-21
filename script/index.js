@@ -104,16 +104,22 @@ class Goomba {
       y: velocity.y
     }
 
-    this.width = 50
+    this.width = 43.33
     this.height = 50
+    this.image = spriteGoomba
+    this.frames = 0
   }
 
   draw() {
-    c.fillStyle = 'red'
-    c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    /*c.fillStyle = 'red'
+    c.fillRect(this.position.x, this.position.y, this.width, this.height)*/
+
+    c.drawImage(this.image, 130 * this.frames, 0, 130, 150, this.position.x, this.position.y, this.width, this.height)
   }
 
   update() {
+    this.frames++
+    if (this.frames >= 58) this.frames = 0
     this.draw()
     this.position.x += this.velocity.x
     this.position.y += this.velocity.y
@@ -146,6 +152,9 @@ spriteStandLeft.src = './sprites/spriteStandLeft.png'
 
 let spriteStandRight = new Image();
 spriteStandRight.src = './sprites/spriteStandRight.png'
+
+let spriteGoomba = new Image();
+spriteGoomba.src = './sprites/spriteGoomba.png'
 
 let player = new Player();
 

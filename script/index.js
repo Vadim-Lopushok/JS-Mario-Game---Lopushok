@@ -92,6 +92,37 @@ class GenericObject {
   }
 }
 
+class Goomba {
+  constructor({position, velocity}) {
+    this.position = {
+      x: position.x,
+      y: position.y
+    }
+
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y
+    }
+
+    this.width = 50
+    this.height = 50
+  }
+
+  draw() {
+    c.fillStyle = 'red'
+    c.fillRect(this.position.x, this.position.y, this.width, this.height)
+  }
+
+  update() {
+    this.draw()
+    this.position.x += this.velocity.x
+    this.position.y += this.velocity.y
+
+    if (this.position.y + this.height + this.velocity.y <= canvas.height)
+      this.velocity.y += gravity
+  }
+}
+
 let platform = new Image();
 platform.src = './sprites/platform.png';
 
@@ -122,7 +153,18 @@ let platforms = [];
 
 let genericObjects = [];
 
-let  lastKey;
+let goombas = [new Goomba({
+  position: {
+    x: 800,
+    y: 100
+  },
+  velocity: {
+    x: -0.3,
+    y: 0
+  }
+})];
+
+let lastKey;
 let keys = {
   right: {
     pressed: false
@@ -133,6 +175,14 @@ let keys = {
 }
 
 let scrollOffset = 0
+
+function isOnTopPlatform({object, platform}) {
+  return object.position.y + object.height <= platform.position.y && object.position.y + object.height + object.velocity.y >= platform.position.y && object.position.x + object.width >= platform.position.x && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width
+}
+
+function collisionTop({object1, object2}) {
+  return object1.position.y + object1.height <= object2.position.y && object1.position.y + object1.height + object1.velocity.y >= object2.position.y && object1.position.x + object1.width >= object2.position.x && object1.position.x + object1.width >= object2.position.x && object1.position.x <= object2.position.x + object2.width
+}
 
 function init() {
   platform = new Image();
@@ -206,6 +256,22 @@ function animate() {
   platforms.forEach(platform => {
     platform.draw();
   })
+
+  goombas.forEach((goomba, index) => {
+    goomba.update()
+
+    if (collisionTop({
+      object1: player,
+      object2: goomba
+    })) {
+      player.velocity.y -= 40
+      setTimeout(() => {
+        goombas.splice(index, 1)
+      }, 0)
+    } else if (
+      player.position.x + player.width >= goomba.position.x && player.position.y + player.height >= goomba.position.y && player.position.x <= goomba.position.x + goomba.width
+    ) init()
+  })
   player.update()
 
   if (keys.right.pressed && player.position.x < 400) {
@@ -215,6 +281,7 @@ function animate() {
   } else {
     player.velocity.x = 0
 
+    //scrolling code
     if (keys.right.pressed) {
       scrollOffset += player.speed
       platforms.forEach(platform => {
@@ -222,6 +289,9 @@ function animate() {
       })
       genericObjects.forEach(GenericObject => {
         GenericObject.position.x -= player.speed * .66
+      })
+      goombas.forEach((goomba) => {
+        goomba.position.x -= player.speed
       })
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed
@@ -231,14 +301,27 @@ function animate() {
       genericObjects.forEach(GenericObject => {
         GenericObject.position.x += player.speed * .66
       })
+      goombas.forEach((goomba) => {
+        goomba.position.x += player.speed
+      })
     }
   }
 
   // Platform collision
   platforms.forEach(platform => {
-    if (player.position.y + player.height <= platform.position.y && player.position.y + player.height + player.velocity.y >= platform.position.y && player.position.x + player.width >= platform.position.x && player.position.x + player.width >= platform.position.x && player.position.x <= platform.position.x + platform.width) {
+    if (isOnTopPlatform({
+      object: player,
+      platform
+    })) {
       player.velocity.y = 0
     }
+
+    goombas.forEach((goomba) => {
+      if (isOnTopPlatform({
+        object: goomba,
+        platform
+      })) goomba.velocity.y = 0
+    })
   })
 
   // sprite Switch
@@ -247,15 +330,15 @@ function animate() {
     player.currentSprite = player.sprites.run.right
     player.currentCropWidth = player.sprites.run.cropWidth
     player.width = player.sprites.run.width
-  } else  if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
+  } else if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
     player.currentSprite = player.sprites.run.left
     player.currentCropWidth = player.sprites.run.cropWidth
     player.width = player.sprites.run.width
-  } else  if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
+  } else if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
     player.currentSprite = player.sprites.stand.left
     player.currentCropWidth = player.sprites.stand.cropWidth
     player.width = player.sprites.stand.width
-  } else  if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
+  } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
     player.currentSprite = player.sprites.stand.right
     player.currentCropWidth = player.sprites.stand.cropWidth
     player.width = player.sprites.stand.width
@@ -278,23 +361,19 @@ animate();
 window.addEventListener('keydown', ({keyCode}) => {
   switch (keyCode) {
     case 65:
-      console.log('left');
       keys.left.pressed = true
       lastKey = 'left'
       break;
 
     case 83:
-      console.log('down');
       break;
 
     case 68:
-      console.log('right');
       keys.right.pressed = true
       lastKey = 'right'
       break;
 
     case 87:
-      console.log('up');
       player.velocity.y -= 25;
       break;
   }
@@ -303,7 +382,6 @@ window.addEventListener('keydown', ({keyCode}) => {
 window.addEventListener('keyup', ({keyCode}) => {
   switch (keyCode) {
     case 65:
-      console.log('left');
       keys.left.pressed = false;
       break;
 
@@ -312,12 +390,10 @@ window.addEventListener('keyup', ({keyCode}) => {
       break;
 
     case 68:
-      console.log('right');
       keys.right.pressed = false;
       break;
 
     case 87:
-      console.log('up');
       player.velocity.y = 0;
       break;
   }

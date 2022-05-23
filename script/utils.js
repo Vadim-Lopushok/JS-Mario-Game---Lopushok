@@ -1,4 +1,4 @@
-function randomIntFromRange(min, max) {
+/*function randomIntFromRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
@@ -11,7 +11,7 @@ function distance(x1, y1, x2, y2) {
   const yDist = y2 - y1
 
   return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
-}
+}*/
 
 /*export function  createImage(imageSrc) {
   const image = new Image()
@@ -42,9 +42,9 @@ export function isOnTopPlatformCircle({object, platform}) {
 }
 
 export function hitBottomOfPlatform({object, platform}) {
-  return object.position.y <= platform.position.y + platform.height && object.position.y - object.velocity.y >= platform.position.y + platform.height && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width
+  return (object.position.y <= platform.position.y + platform.height && object.position.y - object.velocity.y >= platform.position.y + platform.height && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width)
 }
 
 export function hitSideOfPlatform({object, platform}) {
-  return object.position.x + object.width + object.velocity.x >= platform.position.x && object.position.x + object.velocity.x <= platform.position.x + platform.width && object.position.y <= platform.position.y + platform.height && object.position.y + object.height >= platform.position.y
+  return (object.position.x + object.width + object.velocity.x - platform.velocity.x >= platform.position.x && object.position.x + object.velocity.x <= platform.position.x + platform.width && object.position.y <= platform.position.y + platform.height && object.position.y + object.height >= platform.position.y)
 }

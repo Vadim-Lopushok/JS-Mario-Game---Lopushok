@@ -112,6 +112,7 @@ class GenericObject {
   draw() {
     c.drawImage(this.image, this.position.x, this.position.y)
   }
+
   update() {
     this.draw()
     this.position.x += this.velocity.x
@@ -399,6 +400,8 @@ function animate() {
   })
   player.update()
 
+  let hitSide = false
+
   if (keys.right.pressed && player.position.x < 400) {
     player.velocity.x = player.speed
   } else if ((keys.left.pressed && player.position.x > 100) || (keys.left.pressed && scrollOffset === 0 && player.position.x > 0)) {
@@ -409,23 +412,50 @@ function animate() {
     //scrolling code
     if (keys.right.pressed) {
       scrollOffset += player.speed
+
       platforms.forEach((platform) => {
         platform.velocity.x = -player.speed
+
+        if (platform.block && hitSideOfPlatform({
+          object: player,
+          platform
+        })) {
+          platforms.forEach((platform) => {
+            platform.velocity.x = 0
+          })
+          hitSide = true
+        }
       })
-      genericObjects.forEach((GenericObject) => {
-        GenericObject.velocity.x = -player.speed * 0.66
-      })
-      goombas.forEach((goomba) => {
-        goomba.position.x -= player.speed
-      })
-      particles.forEach((particle) => {
-        particle.position.x -= player.speed
-      })
+
+      if (!hitSide) {
+        genericObjects.forEach((GenericObject) => {
+          GenericObject.velocity.x = -player.speed * 0.66
+        })
+        goombas.forEach((goomba) => {
+          goomba.position.x -= player.speed
+        })
+        particles.forEach((particle) => {
+          particle.position.x -= player.speed
+        })
+      }
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed
+
       platforms.forEach((platform) => {
         platform.velocity.x = player.speed
+
+        if (platform.block && hitSideOfPlatform({
+          object: player,
+          platform
+        })) {
+          platforms.forEach((platform) => {
+            platform.velocity.x = 0
+          })
+          hitSide = true
+        }
       })
+
+      if (!hitSide) {
       genericObjects.forEach((GenericObject) => {
         GenericObject.velocity.x = player.speed * .66
       })
@@ -435,6 +465,7 @@ function animate() {
       particles.forEach((particle) => {
         particle.position.x += player.speed
       })
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import {createImage, createImageAsync, collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform} from './utils.js'
+import {createImage, createImageAsync, collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform, hitSideOfPlatform} from './utils.js'
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -49,6 +49,8 @@ class Player {
   }
 
   draw() {
+    c.fillStyle = 'rgba(255, 0, 0, .2)'
+    c.fillRect(this.position.x, this.position.y, this.width, this.height)
     c.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0, this.currentCropWidth, 353, this.position.x, this.position.y, this.width, this.height)
   }
 
@@ -433,6 +435,13 @@ function animate() {
       platform
     })) {
       player.velocity.y = -player.velocity.y
+    }
+
+    if (platform.block && hitSideOfPlatform({
+      object: player,
+      platform
+    })) {
+      player.velocity.x = 0
     }
 
     //particles bounce

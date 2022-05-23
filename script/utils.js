@@ -44,3 +44,7 @@ export function isOnTopPlatformCircle({object, platform}) {
 export function hitBottomOfPlatform({object, platform}) {
   return object.position.y <= platform.position.y + platform.height && object.position.y - object.velocity.y >= platform.position.y + platform.height && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width
 }
+
+export function hitSideOfPlatform({object, platform}) {
+  return object.position.x + object.width + object.velocity.x >= platform.position.x && object.position.x + object.velocity.x <= platform.position.x + platform.width && object.position.y <= platform.position.y + platform.height && object.position.y + object.height >= platform.position.y
+}

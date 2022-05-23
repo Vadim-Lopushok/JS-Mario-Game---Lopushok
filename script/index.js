@@ -1,4 +1,4 @@
-'use strict'
+import {createImage, createImageAsync, collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform} from './utils.js'
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -69,7 +69,7 @@ class Player {
 }
 
 class Platform {
-  constructor({x, y, image}) {
+  constructor({x, y, image, block}) {
     this.position = {
       x,
       y
@@ -77,6 +77,7 @@ class Platform {
     this.image = image;
     this.width = image.width;
     this.height = image.height;
+    this.block = block
   }
 
   draw() {
@@ -121,9 +122,7 @@ class Goomba {
     this.height = 50
     this.image = spriteGoomba
     this.frames = 0
-
     this.distance = distance
-
   }
 
   draw() {
@@ -269,18 +268,6 @@ let keys = {
 
 let scrollOffset = 0
 
-function isOnTopPlatform({object, platform}) {
-  return (object.position.y + object.height <= platform.position.y && object.position.y + object.height + object.velocity.y >= platform.position.y && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width)
-}
-
-function collisionTop({object1, object2}) {
-  return (object1.position.y + object1.height <= object2.position.y && object1.position.y + object1.height + object1.velocity.y >= object2.position.y && object1.position.x + object1.width >= object2.position.x && object1.position.x <= object2.position.x + object2.width)
-}
-
-function isOnTopPlatformCircle({object, platform}) {
-  return (object.position.y + object.radius <= platform.position.y && object.position.y + object.radius + object.velocity.y >= platform.position.y && object.position.x + object.radius >= platform.position.x && object.position.x <= platform.position.x + platform.width)
-}
-
 function init() {
   platform = new Image();
   platform.src = './sprites/platform.png';
@@ -317,7 +304,7 @@ function init() {
       x: platform.width * 5 + 700 - 2, y: 470, image: platform
     }),
     new Platform({
-      x: 300, y: 300, image: blockTri
+      x: 300, y: 300, image: blockTri, block: true
     })
   ];
 
@@ -439,6 +426,13 @@ function animate() {
       platform
     })) {
       player.velocity.y = 0
+    }
+
+    if (platform.block && hitBottomOfPlatform({
+      object: player,
+      platform
+    })) {
+      player.velocity.y = -player.velocity.y
     }
 
     //particles bounce

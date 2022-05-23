@@ -71,7 +71,7 @@ class Player {
 }
 
 class Platform {
-  constructor({x, y, image, block}) {
+  constructor({x, y, image, block, text}) {
     this.position = {
       x,
       y
@@ -83,10 +83,16 @@ class Platform {
     this.width = image.width;
     this.height = image.height;
     this.block = block
+    this.text = text
   }
 
   draw() {
     c.drawImage(this.image, this.position.x, this.position.y)
+
+    if (this.text) {
+      c.fillStyle = 'red'
+      c.fillText(this.text, this.position.x, this.position.y)
+    }
   }
 
   update() {
@@ -310,16 +316,16 @@ function init() {
       x: platform.width - 3, y: 470, image: platform
     }),
     new Platform({
-      x: platform.width * 2 + 100, y: 470, image: platform
+      x: platform.width * 2 + 100, y: 470, image: platform, text: 'here', block: true
     }),
     new Platform({
-      x: platform.width * 3 + 300, y: 470, image: platform
+      x: platform.width * 3 + 300, y: 470, image: platform, text: 'here', block: true
     }),
     new Platform({
       x: platform.width * 4 + 300 - 2, y: 470, image: platform
     }),
     new Platform({
-      x: platform.width * 5 + 700 - 2, y: 470, image: platform
+      x: platform.width * 5 + 700 - 2, y: 470, image: platform, text: 'here', block: true
     }),
     new Platform({
       x: 850, y: 270, image: blockTri, block: true
@@ -411,11 +417,9 @@ function animate() {
 
     //scrolling code
     if (keys.right.pressed) {
-      scrollOffset += player.speed
-
-      platforms.forEach((platform) => {
+      for (let i = 0; i < platforms.length; i++) {
+        const platform = platforms[i]
         platform.velocity.x = -player.speed
-
         if (platform.block && hitSideOfPlatform({
           object: player,
           platform
@@ -424,10 +428,13 @@ function animate() {
             platform.velocity.x = 0
           })
           hitSide = true
+          break
         }
-      })
+      }
 
       if (!hitSide) {
+        scrollOffset += player.speed
+
         genericObjects.forEach((GenericObject) => {
           GenericObject.velocity.x = -player.speed * 0.66
         })
@@ -439,9 +446,8 @@ function animate() {
         })
       }
     } else if (keys.left.pressed && scrollOffset > 0) {
-      scrollOffset -= player.speed
-
-      platforms.forEach((platform) => {
+      for (let i = 0; i < platforms.length; i++) {
+        const platform = platforms[i]
         platform.velocity.x = player.speed
 
         if (platform.block && hitSideOfPlatform({
@@ -452,19 +458,21 @@ function animate() {
             platform.velocity.x = 0
           })
           hitSide = true
+          break
         }
-      })
+      }
 
       if (!hitSide) {
-      genericObjects.forEach((GenericObject) => {
-        GenericObject.velocity.x = player.speed * .66
-      })
-      goombas.forEach((goomba) => {
-        goomba.position.x += player.speed
-      })
-      particles.forEach((particle) => {
-        particle.position.x += player.speed
-      })
+        scrollOffset -= player.speed
+        genericObjects.forEach((GenericObject) => {
+          GenericObject.velocity.x = player.speed * .66
+        })
+        goombas.forEach((goomba) => {
+          goomba.position.x += player.speed
+        })
+        particles.forEach((particle) => {
+          particle.position.x += player.speed
+        })
       }
     }
   }

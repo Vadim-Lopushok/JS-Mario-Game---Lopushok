@@ -219,11 +219,16 @@ spriteMarioJumpRight.src = './sprites/spriteMarioJumpRight.png'
 let spriteGoomba = new Image();
 spriteGoomba.src = './sprites/spriteGoomba.png'
 
+let block = new Image();
+block.src = './sprites/block.png'
+
+let blockTri = new Image();
+blockTri.src = './sprites/blockTri.png'
+
 let player = new Player();
-
 let platforms = [];
-
 let genericObjects = [];
+let particles = []
 
 let goombas = [
   new Goomba({
@@ -251,8 +256,6 @@ let goombas = [
     }
   })
 ];
-
-let particles = []
 
 let lastKey;
 let keys = {
@@ -312,6 +315,9 @@ function init() {
     }),
     new Platform({
       x: platform.width * 5 + 700 - 2, y: 470, image: platform
+    }),
+    new Platform({
+      x: 300, y: 300, image: blockTri
     })
   ];
 

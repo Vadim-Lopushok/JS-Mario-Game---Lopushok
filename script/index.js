@@ -1,4 +1,4 @@
-import {createImage, createImageAsync, collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform, hitSideOfPlatform} from './utils.js'
+import {collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform, hitSideOfPlatform} from './utils.js'
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -76,6 +76,9 @@ class Platform {
       x,
       y
     }
+    this.velocity = {
+      x: 0
+    }
     this.image = image;
     this.width = image.width;
     this.height = image.height;
@@ -85,6 +88,11 @@ class Platform {
   draw() {
     c.drawImage(this.image, this.position.x, this.position.y)
   }
+
+  update() {
+    this.draw()
+    this.position.x += this.velocity.x
+  }
 }
 
 class GenericObject {
@@ -93,6 +101,9 @@ class GenericObject {
       x,
       y
     }
+    this.velocity = {
+      x: 0
+    }
     this.image = image;
     this.width = image.width;
     this.height = image.height;
@@ -100,6 +111,10 @@ class GenericObject {
 
   draw() {
     c.drawImage(this.image, this.position.x, this.position.y)
+  }
+  update() {
+    this.draw()
+    this.position.x += this.velocity.x
   }
 }
 
@@ -306,7 +321,7 @@ function init() {
       x: platform.width * 5 + 700 - 2, y: 470, image: platform
     }),
     new Platform({
-      x: 300, y: 300, image: blockTri, block: true
+      x: 850, y: 270, image: blockTri, block: true
     })
   ];
 
@@ -341,11 +356,13 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   genericObjects.forEach(GenericObject => {
-    GenericObject.draw()
+    GenericObject.update()
+    GenericObject.velocity.x = 0
   })
 
   platforms.forEach(platform => {
-    platform.draw();
+    platform.update();
+    platform.velocity.x = 0
   })
 
   goombas.forEach((goomba, index) => {
@@ -392,11 +409,11 @@ function animate() {
     //scrolling code
     if (keys.right.pressed) {
       scrollOffset += player.speed
-      platforms.forEach(platform => {
-        platform.position.x -= player.speed
+      platforms.forEach((platform) => {
+        platform.velocity.x = -player.speed
       })
-      genericObjects.forEach(GenericObject => {
-        GenericObject.position.x -= player.speed * .66
+      genericObjects.forEach((GenericObject) => {
+        GenericObject.velocity.x = -player.speed * 0.66
       })
       goombas.forEach((goomba) => {
         goomba.position.x -= player.speed
@@ -406,11 +423,11 @@ function animate() {
       })
     } else if (keys.left.pressed && scrollOffset > 0) {
       scrollOffset -= player.speed
-      platforms.forEach(platform => {
-        platform.position.x += player.speed
+      platforms.forEach((platform) => {
+        platform.velocity.x = player.speed
       })
-      genericObjects.forEach(GenericObject => {
-        GenericObject.position.x += player.speed * .66
+      genericObjects.forEach((GenericObject) => {
+        GenericObject.velocity.x = player.speed * .66
       })
       goombas.forEach((goomba) => {
         goomba.position.x += player.speed

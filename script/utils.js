@@ -13,7 +13,7 @@ function distance(x1, y1, x2, y2) {
   return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
 }
 
-export function  createImage(imageSrc) {
+/*export function  createImage(imageSrc) {
   const image = new Image()
   image.src = imageSrc
   return image
@@ -27,7 +27,7 @@ export function createImageAsync(imageSrc) {
     }
     image.src = imageSrc
   })
-}
+}*/
 
 export function isOnTopPlatform({object, platform}) {
   return (object.position.y + object.height <= platform.position.y && object.position.y + object.height + object.velocity.y >= platform.position.y && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width)

@@ -6,6 +6,49 @@ const c = canvas.getContext('2d');
 canvas.width = 1024;
 canvas.height = 576;
 
+
+let platform = new Image();
+platform.src = './sprites/platform.png';
+
+let hills = new Image();
+hills.src = './sprites/hills.png';
+
+let background = new Image();
+background.src = './sprites/background.png';
+
+let platformSmallTall = new Image();
+platformSmallTall.src = './sprites/platformSmallTall.png'
+
+let spriteRunLeft = new Image();
+spriteRunLeft.src = './sprites/spriteMarioRunLeft.png'
+
+let spriteRunRight = new Image();
+spriteRunRight.src = './sprites/spriteMarioRunRight.png'
+
+let spriteStandLeft = new Image();
+spriteStandLeft.src = './sprites/spriteMarioStandLeft.png'
+
+let spriteStandRight = new Image();
+spriteStandRight.src = './sprites/spriteMarioStandRight.png'
+
+let spriteMarioJumpLeft = new Image();
+spriteMarioJumpLeft.src = './sprites/spriteMarioJumpLeft.png'
+
+let spriteMarioJumpRight = new Image();
+spriteMarioJumpRight.src = './sprites/spriteMarioJumpRight.png'
+
+let spriteGoomba = new Image();
+spriteGoomba.src = './sprites/spriteGoomba.png'
+
+let block = new Image();
+block.src = './sprites/block.png'
+
+let blockTri = new Image();
+blockTri.src = './sprites/blockTri.png'
+
+let fireFlower = new Image();
+fireFlower.src = './sprites/spriteFireFlower.png'
+
 const gravity = 1.5;
 
 class Player {
@@ -176,6 +219,43 @@ class Goomba {
   }
 }
 
+class FireFlower {
+  constructor({position, velocity}) {
+    this.position = {
+      x: position.x,
+      y: position.y
+    }
+
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y
+    }
+
+    this.width = 56
+    this.height = 60
+    this.image = fireFlower
+    this.frames = 0
+  }
+
+  draw() {
+    /*c.fillStyle = 'red'
+    c.fillRect(this.position.x, this.position.y, this.width, this.height)*/
+
+    c.drawImage(this.image, this.width * this.frames, 0, 56, 60, this.position.x, this.position.y, this.width, this.height)
+  }
+
+  update() {
+    this.frames++
+    if (this.frames >= 75) this.frames = 0
+    this.draw()
+    this.position.x += this.velocity.x
+    this.position.y += this.velocity.y
+
+    if (this.position.y + this.height + this.velocity.y <= canvas.height)
+      this.velocity.y += gravity
+  }
+}
+
 class Particle {
   constructor({position, velocity, radius}) {
     this.position = {
@@ -209,49 +289,20 @@ class Particle {
   }
 }
 
-let platform = new Image();
-platform.src = './sprites/platform.png';
-
-let hills = new Image();
-hills.src = './sprites/hills.png';
-
-let background = new Image();
-background.src = './sprites/background.png';
-
-let platformSmallTall = new Image();
-platformSmallTall.src = './sprites/platformSmallTall.png'
-
-let spriteRunLeft = new Image();
-spriteRunLeft.src = './sprites/spriteMarioRunLeft.png'
-
-let spriteRunRight = new Image();
-spriteRunRight.src = './sprites/spriteMarioRunRight.png'
-
-let spriteStandLeft = new Image();
-spriteStandLeft.src = './sprites/spriteMarioStandLeft.png'
-
-let spriteStandRight = new Image();
-spriteStandRight.src = './sprites/spriteMarioStandRight.png'
-
-let spriteMarioJumpLeft = new Image();
-spriteMarioJumpLeft.src = './sprites/spriteMarioJumpLeft.png'
-
-let spriteMarioJumpRight = new Image();
-spriteMarioJumpRight.src = './sprites/spriteMarioJumpRight.png'
-
-let spriteGoomba = new Image();
-spriteGoomba.src = './sprites/spriteGoomba.png'
-
-let block = new Image();
-block.src = './sprites/block.png'
-
-let blockTri = new Image();
-blockTri.src = './sprites/blockTri.png'
-
 let player = new Player();
 let platforms = [];
 let genericObjects = [];
-let particles = []
+let particles = [];
+let fireFlowers = [new FireFlower({
+  position: {
+    x: 400,
+    y: 100
+  },
+  velocity: {
+    x: 0,
+    y: 0
+  }
+})];
 
 let goombas = [
   new Goomba({
@@ -363,17 +414,21 @@ function animate() {
   c.fillRect(0, 0, canvas.width, canvas.height);
 
   genericObjects.forEach(GenericObject => {
-    GenericObject.update()
-    GenericObject.velocity.x = 0
+    GenericObject.update();
+    GenericObject.velocity.x = 0;
   })
 
   platforms.forEach(platform => {
     platform.update();
-    platform.velocity.x = 0
+    platform.velocity.x = 0;
+  })
+
+  fireFlowers.forEach(fireFlower => {
+    fireFlower.update()
   })
 
   goombas.forEach((goomba, index) => {
-    goomba.update()
+    goomba.update();
 
     //goomba stomp squish
     if (collisionTop({
@@ -399,12 +454,12 @@ function animate() {
       }, 0)
     } else if (
       player.position.x + player.width >= goomba.position.x && player.position.y + player.height >= goomba.position.y && player.position.x <= goomba.position.x + goomba.width
-    ) init()
+    ) init();
   })
   particles.forEach(particle => {
-    particle.update()
+    particle.update();
   })
-  player.update()
+  player.update();
 
   let hitSide = false
 
@@ -518,28 +573,35 @@ function animate() {
         platform
       })) goomba.velocity.y = 0
     })
+
+    fireFlowers.forEach((fireFlower) => {
+      if (isOnTopPlatform({
+        object: fireFlower,
+        platform
+      })) fireFlower.velocity.y = 0
+    })
   })
 
   // sprite Switch
   if (player.velocity.y === 0) {
 
     if (keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right) {
-      player.frames = 1
-      player.currentSprite = player.sprites.run.right
-      player.currentCropWidth = player.sprites.run.cropWidth
-      player.width = player.sprites.run.width
+      player.frames = 1;
+      player.currentSprite = player.sprites.run.right;
+      player.currentCropWidth = player.sprites.run.cropWidth;
+      player.width = player.sprites.run.width;
     } else if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
-      player.currentSprite = player.sprites.run.left
-      player.currentCropWidth = player.sprites.run.cropWidth
-      player.width = player.sprites.run.width
+      player.currentSprite = player.sprites.run.left;
+      player.currentCropWidth = player.sprites.run.cropWidth;
+      player.width = player.sprites.run.width;
     } else if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
-      player.currentSprite = player.sprites.stand.left
-      player.currentCropWidth = player.sprites.stand.cropWidth
-      player.width = player.sprites.stand.width
+      player.currentSprite = player.sprites.stand.left;
+      player.currentCropWidth = player.sprites.stand.cropWidth;
+      player.width = player.sprites.stand.width;
     } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
-      player.currentSprite = player.sprites.stand.right
-      player.currentCropWidth = player.sprites.stand.cropWidth
-      player.width = player.sprites.stand.width
+      player.currentSprite = player.sprites.stand.right;
+      player.currentCropWidth = player.sprites.stand.cropWidth;
+      player.width = player.sprites.stand.width;
     }
   }
   // win condition
@@ -559,23 +621,23 @@ animate();
 window.addEventListener('keydown', ({keyCode}) => {
   switch (keyCode) {
     case 65:
-      keys.left.pressed = true
-      lastKey = 'left'
+      keys.left.pressed = true;
+      lastKey = 'left';
       break;
 
     case 83:
       break;
 
     case 68:
-      keys.right.pressed = true
-      lastKey = 'right'
+      keys.right.pressed = true;
+      lastKey = 'right';
       break;
 
     case 87:
       player.velocity.y -= 25;
       if (lastKey === 'right')
-        player.currentSprite = player.sprites.jump.right
-      else player.currentSprite = player.sprites.jump.left
+        player.currentSprite = player.sprites.jump.right;
+      else player.currentSprite = player.sprites.jump.left;
       break;
   }
 })

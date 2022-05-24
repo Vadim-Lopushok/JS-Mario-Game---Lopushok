@@ -302,7 +302,7 @@ class FireFlower {
 }
 
 class Particle {
-  constructor({position, velocity, radius}) {
+  constructor({position, velocity, radius, color = '#654428', fireball = false}) {
     this.position = {
       x: position.x,
       y: position.y
@@ -313,12 +313,14 @@ class Particle {
     }
     this.radius = radius
     this.ttl = 300
+    this.color = color
+    this.fireball = fireball
   }
 
   draw() {
     c.beginPath()
     c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, false)
-    c.fillStyle = '#654428'
+    c.fillStyle = this.color
     c.fill()
     c.closePath()
   }
@@ -488,6 +490,29 @@ function animate() {
   goombas.forEach((goomba, index) => {
     goomba.update();
 
+    // remove goomba on fireball hit
+    particles.filter(particle => particle.fireball).forEach((particle, particleIndex) => {
+      if (particle.position.x + particle.radius >= goomba.position.x && particle.position.y + particle.radius >= goomba.position.y && particle.position.x - particle.radius <= goomba.position.x + goomba.width && particle.position.y - particle.radius <= goomba.position.y + goomba.height) {
+        for (let i = 0; i < 50; i++) {
+          particles.push(new Particle({
+            position: {
+              x: goomba.position.x + goomba.width / 2,
+              y: goomba.position.y + goomba.height / 2
+            },
+            velocity: {
+              x: (Math.random() - 0.5) * 7,
+              y: (Math.random() - 0.5) * 15
+            },
+            radius: Math.random() * 3
+          }))
+        }
+        setTimeout(() => {
+          goombas.splice(index, 1)
+          particles.splice(particleIndex, 1)
+        }, 0)
+      }
+    })
+
     //goomba stomp squish
     if (collisionTop({
       object1: player,
@@ -524,8 +549,13 @@ function animate() {
       } else if (!player.invincible) init();
     }
   })
-  particles.forEach(particle => {
+  particles.forEach((particle, i) => {
     particle.update();
+
+    if (particle.fireball && (particle.position.x - particle.radius >= canvas.width || particle.position.x + particle.radius <= 0))
+      setTimeout(() => {
+        particles.splice(i, 1)
+      }, 0)
   })
   player.update();
 
@@ -635,7 +665,8 @@ function animate() {
         object: particle,
         platform
       })) {
-        particle.velocity.y = -particle.velocity.y * 0.9
+        const bounce = 0.9
+        particle.velocity.y = -particle.velocity.y * .99
         if (particle.radius - 0.4 < 0) particles.splice(index, 1)
         else particle.radius -= 0.4
       }
@@ -721,6 +752,28 @@ window.addEventListener('keydown', ({keyCode}) => {
         player.currentSprite = player.sprites.jump.fireFlower.right;
       else player.currentSprite = player.sprites.jump.fireFlower.left;
       break;
+
+    case 32:
+      console.log('space')
+
+      if (!player.powerUps.fireFlower) return
+
+      let velocity = 15
+      if (lastKey === 'left') velocity  = -velocity
+      particles.push(new Particle({
+        position: {
+          x: player.position.x + player.width / 2,
+          y: player.position.y + player.height / 2
+        },
+        velocity: {
+          x: velocity,
+          y: 0
+        },
+        radius: 5,
+        color: 'red',
+        fireball: true
+      }))
+    break;
   }
 })
 

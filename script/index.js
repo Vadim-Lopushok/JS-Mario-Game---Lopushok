@@ -1,4 +1,4 @@
-import {collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform, hitSideOfPlatform} from './utils.js'
+import {collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform, hitSideOfPlatform, objectsTouch} from './utils.js'
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -423,8 +423,15 @@ function animate() {
     platform.velocity.x = 0;
   })
 
-  fireFlowers.forEach(fireFlower => {
-    fireFlower.update()
+  fireFlowers.forEach((fireFlower, i) => {
+    if (objectsTouch({
+      object1: player,
+      object2: fireFlower
+    })) {
+      setTimeout(() => {
+        fireFlowers.splice(i, 1)
+      }, 0)
+    } else fireFlower.update()
   })
 
   goombas.forEach((goomba, index) => {
@@ -496,6 +503,9 @@ function animate() {
         goombas.forEach((goomba) => {
           goomba.position.x -= player.speed
         })
+        fireFlowers.forEach((fireFlower) => {
+          fireFlower.position.x -= player.speed
+        })
         particles.forEach((particle) => {
           particle.position.x -= player.speed
         })
@@ -524,6 +534,9 @@ function animate() {
         })
         goombas.forEach((goomba) => {
           goomba.position.x += player.speed
+        })
+        fireFlowers.forEach((fireFlower) => {
+          fireFlower.position.x += player.speed
         })
         particles.forEach((particle) => {
           particle.position.x += player.speed

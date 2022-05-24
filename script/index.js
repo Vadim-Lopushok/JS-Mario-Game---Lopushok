@@ -1,4 +1,11 @@
-import {collisionTop, isOnTopPlatformCircle, isOnTopPlatform, hitBottomOfPlatform, hitSideOfPlatform, objectsTouch} from './utils.js'
+import {
+  collisionTop,
+  isOnTopPlatformCircle,
+  isOnTopPlatform,
+  hitBottomOfPlatform,
+  hitSideOfPlatform,
+  objectsTouch
+} from './utils.js'
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -8,46 +15,64 @@ canvas.height = 576;
 
 
 let platform = new Image();
-platform.src = './sprites/platform.png';
+platform.src = '../sprites/platform.png';
 
 let hills = new Image();
-hills.src = './sprites/hills.png';
+hills.src = '../sprites/hills.png';
 
 let background = new Image();
-background.src = './sprites/background.png';
+background.src = '../sprites/background.png';
 
 let platformSmallTall = new Image();
-platformSmallTall.src = './sprites/platformSmallTall.png'
+platformSmallTall.src = '../sprites/platformSmallTall.png'
 
 let spriteRunLeft = new Image();
-spriteRunLeft.src = './sprites/spriteMarioRunLeft.png'
+spriteRunLeft.src = '../sprites/spriteMarioRunLeft.png'
 
 let spriteRunRight = new Image();
-spriteRunRight.src = './sprites/spriteMarioRunRight.png'
+spriteRunRight.src = '../sprites/spriteMarioRunRight.png'
 
 let spriteStandLeft = new Image();
-spriteStandLeft.src = './sprites/spriteMarioStandLeft.png'
+spriteStandLeft.src = '../sprites/spriteMarioStandLeft.png'
 
 let spriteStandRight = new Image();
-spriteStandRight.src = './sprites/spriteMarioStandRight.png'
+spriteStandRight.src = '../sprites/spriteMarioStandRight.png'
 
 let spriteMarioJumpLeft = new Image();
-spriteMarioJumpLeft.src = './sprites/spriteMarioJumpLeft.png'
+spriteMarioJumpLeft.src = '../sprites/spriteMarioJumpLeft.png'
 
 let spriteMarioJumpRight = new Image();
-spriteMarioJumpRight.src = './sprites/spriteMarioJumpRight.png'
+spriteMarioJumpRight.src = '../sprites/spriteMarioJumpRight.png'
 
 let spriteGoomba = new Image();
-spriteGoomba.src = './sprites/spriteGoomba.png'
+spriteGoomba.src = '../sprites/spriteGoomba.png'
 
 let block = new Image();
-block.src = './sprites/block.png'
+block.src = '../sprites/block.png'
 
 let blockTri = new Image();
-blockTri.src = './sprites/blockTri.png'
+blockTri.src = '../sprites/blockTri.png'
 
 let fireFlower = new Image();
-fireFlower.src = './sprites/spriteFireFlower.png'
+fireFlower.src = '../sprites/spriteFireFlower.png'
+
+let fireFlowerStandLeft = new Image();
+fireFlowerStandLeft.src = '../sprites/spriteFireFlowerStandLeft.png'
+
+let fireFlowerStandRight = new Image();
+fireFlowerStandRight.src = '../sprites/spriteFireFlowerStandRight.png'
+
+let fireFlowerRunRight = new Image();
+fireFlowerRunRight.src = '../sprites/spriteFireFlowerRunRight.png'
+
+let fireFlowerRunLeft = new Image();
+fireFlowerRunLeft.src = '../sprites/spriteFireFlowerRunLeft.png'
+
+let fireFlowerJumpLeft = new Image();
+fireFlowerJumpLeft.src = '../sprites/spriteFireFlowerJumpLeft.png'
+
+let fireFlowerJumpRight = new Image();
+fireFlowerJumpRight.src = '../sprites/spriteFireFlowerJumpRight.png'
 
 const gravity = 1.5;
 
@@ -71,24 +96,33 @@ class Player {
       stand: {
         right: spriteStandRight,
         left: spriteStandLeft,
-        cropWidth: 398,
-        width: 398 * this.scale
+        fireFlower: {
+          right: fireFlowerStandRight,
+          left: fireFlowerStandLeft
+        }
       },
       run: {
         right: spriteRunRight,
         left: spriteRunLeft,
-        cropWidth: 398,
-        width: 398 * this.scale
+        fireFlower: {
+          right: fireFlowerRunRight,
+          left: fireFlowerRunLeft
+        },
       },
       jump: {
         right: spriteMarioJumpRight,
         left: spriteMarioJumpLeft,
-        cropWidth: 398,
-        width: 398 * this.scale
+        fireFlower: {
+          right: fireFlowerJumpRight,
+          left: fireFlowerJumpLeft
+        },
       }
     }
     this.currentSprite = this.sprites.stand.right;
-    this.currentCropWidth = this.sprites.stand.cropWidth;
+    this.currentCropWidth = 398;
+    this.powerUps = {
+      fireFlower: false
+    }
   }
 
   draw() {
@@ -99,10 +133,11 @@ class Player {
 
   update() {
     this.frames++
+    const {currentSprite, sprites} = this
 
-    if (this.frames > 58 && (this.currentSprite === this.sprites.stand.right || this.currentSprite === this.sprites.stand.left)) this.frames = 0
-    else if (this.frames > 28 && (this.currentSprite === this.sprites.run.right || this.currentSprite === this.sprites.run.left)) this.frames = 0
-    else if (this.currentSprite === this.sprites.jump.right || this.currentSprite === this.sprites.jump.left) this.frames = 0
+    if (this.frames > 58 && (currentSprite === sprites.stand.right || currentSprite === sprites.stand.left || currentSprite === sprites.stand.fireFlower.left || currentSprite === sprites.stand.fireFlower.right)) this.frames = 0
+    else if (this.frames > 28 && (currentSprite === sprites.run.right || currentSprite === sprites.run.left || currentSprite === sprites.run.fireFlower.right || currentSprite === sprites.run.fireFlower.left)) this.frames = 0
+    else if (currentSprite === sprites.jump.right || currentSprite === sprites.jump.left || currentSprite === sprites.jump.fireFlower.right || currentSprite === sprites.jump.fireFlower.left) this.frames = 0
 
     this.draw();
     this.position.x += this.velocity.x;
@@ -423,11 +458,13 @@ function animate() {
     platform.velocity.x = 0;
   })
 
+  //mario obtains power up
   fireFlowers.forEach((fireFlower, i) => {
     if (objectsTouch({
       object1: player,
       object2: fireFlower
     })) {
+      player.powerUps.fireFlower = true
       setTimeout(() => {
         fireFlowers.splice(i, 1)
       }, 0)
@@ -595,28 +632,6 @@ function animate() {
     })
   })
 
-  // sprite Switch
-  if (player.velocity.y === 0) {
-
-    if (keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right) {
-      player.frames = 1;
-      player.currentSprite = player.sprites.run.right;
-      player.currentCropWidth = player.sprites.run.cropWidth;
-      player.width = player.sprites.run.width;
-    } else if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
-      player.currentSprite = player.sprites.run.left;
-      player.currentCropWidth = player.sprites.run.cropWidth;
-      player.width = player.sprites.run.width;
-    } else if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
-      player.currentSprite = player.sprites.stand.left;
-      player.currentCropWidth = player.sprites.stand.cropWidth;
-      player.width = player.sprites.stand.width;
-    } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
-      player.currentSprite = player.sprites.stand.right;
-      player.currentCropWidth = player.sprites.stand.cropWidth;
-      player.width = player.sprites.stand.width;
-    }
-  }
   // win condition
   if (scrollOffset > platform.width * 5 + 300 - 2) {
     console.log('you win');
@@ -625,6 +640,31 @@ function animate() {
   // lose condition
   if (player.position.y > canvas.height) {
     init();
+  }
+
+  // sprite Switch
+  if (player.velocity.y !== 0) return
+
+  if (keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.right) {
+    player.currentSprite = player.sprites.run.right;
+  } else if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.left) {
+    player.currentSprite = player.sprites.run.left;
+  } else if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.left) {
+    player.currentSprite = player.sprites.stand.left;
+  } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
+    player.currentSprite = player.sprites.stand.right;
+    }
+
+  // fireflower sprites
+  if (!player.powerUps.fireFlower) return
+  if (keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.run.fireFlower.right) {
+    player.currentSprite = player.sprites.run.fireFlower.right;
+  } else if (keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.run.fireFlower.left) {
+    player.currentSprite = player.sprites.run.fireFlower.left;
+  } else if (!keys.left.pressed && lastKey === 'left' && player.currentSprite !== player.sprites.stand.fireFlower.left) {
+    player.currentSprite = player.sprites.stand.fireFlower.left;
+  } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.fireFlower.right) {
+    player.currentSprite = player.sprites.stand.fireFlower.right;
   }
 }
 
@@ -651,6 +691,11 @@ window.addEventListener('keydown', ({keyCode}) => {
       if (lastKey === 'right')
         player.currentSprite = player.sprites.jump.right;
       else player.currentSprite = player.sprites.jump.left;
+
+      if (!player.powerUps.fireFlower) break
+      if (lastKey === 'right')
+        player.currentSprite = player.sprites.jump.fireFlower.right;
+      else player.currentSprite = player.sprites.jump.fireFlower.left;
       break;
   }
 })

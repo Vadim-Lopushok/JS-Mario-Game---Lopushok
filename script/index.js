@@ -123,12 +123,17 @@ class Player {
     this.powerUps = {
       fireFlower: false
     }
+    this.invincible = false
+    this.opacity = 1
   }
 
   draw() {
+    c.save()
+    c.globalAlpha = this.opacity
     c.fillStyle = 'rgba(255, 0, 0, .2)'
     c.fillRect(this.position.x, this.position.y, this.width, this.height)
     c.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0, this.currentCropWidth, 353, this.position.x, this.position.y, this.width, this.height)
+    c.restore()
   }
 
   update() {
@@ -145,6 +150,11 @@ class Player {
 
     if (this.position.y + this.height + this.velocity.y <= canvas.height)
       this.velocity.y += gravity
+
+    if (this.invincible) {
+      if (this.opacity === 1) this.opacity = 0
+      else this.opacity = 1
+    } else this.opacity = 1
   }
 }
 
@@ -328,16 +338,7 @@ let player = new Player();
 let platforms = [];
 let genericObjects = [];
 let particles = [];
-let fireFlowers = [new FireFlower({
-  position: {
-    x: 400,
-    y: 100
-  },
-  velocity: {
-    x: 0,
-    y: 0
-  }
-})];
+let fireFlowers = [];
 
 let goombas = [
   new Goomba({
@@ -387,6 +388,19 @@ function init() {
 
   background = new Image();
   background.src = './sprites/background.png';
+
+  fireFlowers = [
+    new FireFlower({
+      position: {
+        x: 400,
+        y: 100
+      },
+      velocity: {
+        x: 0,
+        y: 0
+      }
+    })
+  ]
 
   player = new Player();
 
@@ -498,7 +512,17 @@ function animate() {
       }, 0)
     } else if (
       player.position.x + player.width >= goomba.position.x && player.position.y + player.height >= goomba.position.y && player.position.x <= goomba.position.x + goomba.width
-    ) init();
+    ) {
+      //player hits goomba
+      if (player.powerUps.fireFlower) {
+        player.invincible = true
+        player.powerUps.fireFlower = false
+
+        setTimeout(() => {
+          player.invincible = false
+        }, 1000)
+      } else if (!player.invincible) init();
+    }
   })
   particles.forEach(particle => {
     particle.update();

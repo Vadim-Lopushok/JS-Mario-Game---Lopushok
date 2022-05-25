@@ -30,25 +30,48 @@ export function createImageAsync(imageSrc) {
 }*/
 
 export function isOnTopPlatform({object, platform}) {
-  return (object.position.y + object.height <= platform.position.y && object.position.y + object.height + object.velocity.y >= platform.position.y && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width)
+  return (object.position.y + object.height <= platform.position.y &&
+      object.position.y + object.height + object.velocity.y >=
+      platform.position.y && object.position.x + object.width >=
+      platform.position.x && object.position.x <= platform.position.x +
+      platform.width);
 }
 
 export function collisionTop({object1, object2}) {
-  return (object1.position.y + object1.height <= object2.position.y && object1.position.y + object1.height + object1.velocity.y >= object2.position.y && object1.position.x + object1.width >= object2.position.x && object1.position.x <= object2.position.x + object2.width)
+  return (object1.position.y + object1.height <= object2.position.y &&
+      object1.position.y + object1.height + object1.velocity.y >=
+      object2.position.y && object1.position.x + object1.width >=
+      object2.position.x && object1.position.x <= object2.position.x +
+      object2.width);
 }
 
 export function isOnTopPlatformCircle({object, platform}) {
-  return (object.position.y + object.radius <= platform.position.y && object.position.y + object.radius + object.velocity.y >= platform.position.y && object.position.x + object.radius >= platform.position.x && object.position.x <= platform.position.x + platform.width)
+  return (object.position.y + object.radius <= platform.position.y &&
+      object.position.y + object.radius + object.velocity.y >=
+      platform.position.y && object.position.x + object.radius >=
+      platform.position.x && object.position.x <= platform.position.x +
+      platform.width);
 }
 
 export function hitBottomOfPlatform({object, platform}) {
-  return (object.position.y <= platform.position.y + platform.height && object.position.y - object.velocity.y >= platform.position.y + platform.height && object.position.x + object.width >= platform.position.x && object.position.x <= platform.position.x + platform.width)
+  return (object.position.y <= platform.position.y + platform.height &&
+      object.position.y - object.velocity.y >= platform.position.y +
+      platform.height && object.position.x + object.width >=
+      platform.position.x && object.position.x <= platform.position.x +
+      platform.width);
 }
 
 export function hitSideOfPlatform({object, platform}) {
-  return (object.position.x + object.width + object.velocity.x - platform.velocity.x >= platform.position.x && object.position.x + object.velocity.x <= platform.position.x + platform.width && object.position.y <= platform.position.y + platform.height && object.position.y + object.height >= platform.position.y)
+  return (object.position.x + object.width + object.velocity.x -
+      platform.velocity.x >= platform.position.x && object.position.x +
+      object.velocity.x <= platform.position.x + platform.width &&
+      object.position.y <= platform.position.y + platform.height &&
+      object.position.y + object.height >= platform.position.y);
 }
 
 export function objectsTouch({object1, object2}) {
-  return (object1.position.x + object1.width >= object2.position.x && object1.position.x <= object2.position.x + object2.width && object1.position.y + object1.height >= object2.position.y && object1.position.y <= object2.position.y + object2.height)
+  return (object1.position.x + object1.width >= object2.position.x &&
+      object1.position.x <= object2.position.x + object2.width &&
+      object1.position.y + object1.height >= object2.position.y &&
+      object1.position.y <= object2.position.y + object2.height);
 }

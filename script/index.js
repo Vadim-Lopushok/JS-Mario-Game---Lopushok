@@ -67,7 +67,7 @@ fireFlowerJumpLeft.src = '../sprites/spriteFireFlowerJumpLeft.png';
 let fireFlowerJumpRight = new Image();
 fireFlowerJumpRight.src = '../sprites/spriteFireFlowerJumpRight.png';
 
-const gravity = 1.5;
+let gravity = 1.5;
 
 class Player {
   constructor() {
@@ -473,9 +473,14 @@ let keys = {
 
 let scrollOffset = 0;
 let flagPole;
+let game;
 
 async function init() {
+  game = {
+    disableUserInput: false,
+  };
   flagPole = new GenericObject({
+    /*x: 6968 + 600,*/
     x: 500,
     y: canvas.height - lgPlatform.height - flagPoleSprite.height,
     image: flagPoleSprite,
@@ -676,16 +681,38 @@ function animate() {
     flagPole.velocity.x = 0;
 
     //mario touches flagPole
-    if (objectsTouch({
-      object1: player,
-      object2: flagPole,
-    })) {
-     /* player.velocity.x = 0
-      player.velocity.y = 0
+    //win condition
+    if (!game.disableUserInput &&
+        objectsTouch({
+          object1: player,
+          object2: flagPole,
+        })) {
+      game.disableUserInput = true;
+      player.velocity.x = 0;
+      player.velocity.y = 0;
+      gravity = 0;
+
+      player.currentSprite = player.sprites.stand.right;
+
+      if (player.powerUps.fireFlower)
+        player.currentSprite = player.sprites.stand.fireFlower.right;
 
       gsap.to(player.position, {
-        y: canvas.height - lgPlatformImage.height - player.height
-      })*/
+        y: canvas.height - lgPlatform.height - player.height,
+        duration: 1,
+        onComplete() {
+          player.currentSprite = player.sprites.run.right;
+
+          if (player.powerUps.fireFlower)
+            player.currentSprite = player.sprites.run.fireFlower.right;
+        },
+      });
+      gsap.to(player.position, {
+        delay: 1,
+        x: canvas.width,
+        duration: 2,
+        ease: 'power1.in',
+      });
     }
   }
 
@@ -783,8 +810,10 @@ function animate() {
   });
   player.update();
 
-  let hitSide = false;
+  if (game.disableUserInput) return;
 
+  // scrolling code starts
+  let hitSide = false;
   if (keys.right.pressed && player.position.x < 400) {
     player.velocity.x = player.speed;
   } else if ((keys.left.pressed && player.position.x > 100) ||
@@ -917,10 +946,7 @@ function animate() {
     });
   });
 
-  // win condition
-  if (platform && scrollOffset + 400 + player.width > 6968 + 300) {
-    console.log('you win');
-  }
+
 
   // lose condition
   if (player.position.y > canvas.height) {
@@ -965,6 +991,7 @@ init();
 animate();
 
 window.addEventListener('keydown', ({keyCode}) => {
+  if (game.disableUserInput) return;
   switch (keyCode) {
     case 65:
       keys.left.pressed = true;
@@ -1016,6 +1043,7 @@ window.addEventListener('keydown', ({keyCode}) => {
 });
 
 window.addEventListener('keyup', ({keyCode}) => {
+  if (game.disableUserInput) return;
   switch (keyCode) {
     case 65:
       keys.left.pressed = false;

@@ -34,6 +34,8 @@ let tPlatform = new Image();
 tPlatform.src = '../sprites/tPlatform.png'
 let xtPlatform = new Image();
 xtPlatform.src = '../sprites/xtPlatform.png'
+let flagPoleSprite = new Image();
+flagPoleSprite.src = '../sprites/flagPole.png'
 
 let spriteRunLeft = new Image();
 spriteRunLeft.src = '../sprites/spriteMarioRunLeft.png'
@@ -447,9 +449,16 @@ let keys = {
   }
 }
 
-let scrollOffset = 0
+let scrollOffset = 0;
+let flagPole;
 
 async function init() {
+  flagPole = new GenericObject({
+    x: 500,
+    y: canvas.height - lgPlatform.height - flagPoleSprite.height,
+    image: flagPoleSprite
+  })
+
   fireFlowers = [
     new FireFlower({
       position: {
@@ -624,6 +633,20 @@ function animate() {
     platform.velocity.x = 0;
   })
 
+  if (flagPole) {
+  flagPole.update()
+  flagPole.velocity.x = 0
+
+    //mario touches flagPole
+    if (objectsTouch({
+      object1: player,
+      object2: flagPole
+    })) {
+      player.velocity.x = 0
+      player.velocity.y = 0
+    }
+  }
+
   //mario obtains power up
   fireFlowers.forEach((fireFlower, i) => {
     if (objectsTouch({
@@ -738,6 +761,8 @@ function animate() {
       if (!hitSide) {
         scrollOffset += player.speed
 
+        flagPole.velocity.x = -player.speed
+
         genericObjects.forEach((GenericObject) => {
           GenericObject.velocity.x = -player.speed * 0.66
         })
@@ -770,6 +795,9 @@ function animate() {
 
       if (!hitSide) {
         scrollOffset -= player.speed
+
+        flagPole.velocity.x = player.speed
+
         genericObjects.forEach((GenericObject) => {
           GenericObject.velocity.x = player.speed * .66
         })

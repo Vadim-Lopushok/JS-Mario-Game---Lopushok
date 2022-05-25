@@ -13,64 +13,55 @@ const c = canvas.getContext('2d');
 canvas.width = 1024;
 canvas.height = 576;
 
-
 let platform = new Image();
 platform.src = '../sprites/platform.png';
-
 let hills = new Image();
 hills.src = '../sprites/hills.png';
-
 let background = new Image();
 background.src = '../sprites/background.png';
-
 let platformSmallTall = new Image();
 platformSmallTall.src = '../sprites/platformSmallTall.png'
-
-let spriteRunLeft = new Image();
-spriteRunLeft.src = '../sprites/spriteMarioRunLeft.png'
-
-let spriteRunRight = new Image();
-spriteRunRight.src = '../sprites/spriteMarioRunRight.png'
-
-let spriteStandLeft = new Image();
-spriteStandLeft.src = '../sprites/spriteMarioStandLeft.png'
-
-let spriteStandRight = new Image();
-spriteStandRight.src = '../sprites/spriteMarioStandRight.png'
-
-let spriteMarioJumpLeft = new Image();
-spriteMarioJumpLeft.src = '../sprites/spriteMarioJumpLeft.png'
-
-let spriteMarioJumpRight = new Image();
-spriteMarioJumpRight.src = '../sprites/spriteMarioJumpRight.png'
-
-let spriteGoomba = new Image();
-spriteGoomba.src = '../sprites/spriteGoomba.png'
-
 let block = new Image();
 block.src = '../sprites/block.png'
-
 let blockTri = new Image();
 blockTri.src = '../sprites/blockTri.png'
 
+let lgPlatform = new Image();
+lgPlatform.src = '../sprites/lgPlatform.png'
+let mdPlatform = new Image();
+mdPlatform.src = '../sprites/mdPlatform.png'
+let tPlatform = new Image();
+tPlatform.src = '../sprites/tPlatform.png'
+let xtPlatform = new Image();
+xtPlatform.src = '../sprites/xtPlatform.png'
+
+let spriteRunLeft = new Image();
+spriteRunLeft.src = '../sprites/spriteMarioRunLeft.png'
+let spriteRunRight = new Image();
+spriteRunRight.src = '../sprites/spriteMarioRunRight.png'
+let spriteStandLeft = new Image();
+spriteStandLeft.src = '../sprites/spriteMarioStandLeft.png'
+let spriteStandRight = new Image();
+spriteStandRight.src = '../sprites/spriteMarioStandRight.png'
+let spriteMarioJumpLeft = new Image();
+spriteMarioJumpLeft.src = '../sprites/spriteMarioJumpLeft.png'
+let spriteMarioJumpRight = new Image();
+spriteMarioJumpRight.src = '../sprites/spriteMarioJumpRight.png'
+let spriteGoomba = new Image();
+spriteGoomba.src = '../sprites/spriteGoomba.png'
+
 let fireFlower = new Image();
 fireFlower.src = '../sprites/spriteFireFlower.png'
-
 let fireFlowerStandLeft = new Image();
 fireFlowerStandLeft.src = '../sprites/spriteFireFlowerStandLeft.png'
-
 let fireFlowerStandRight = new Image();
 fireFlowerStandRight.src = '../sprites/spriteFireFlowerStandRight.png'
-
 let fireFlowerRunRight = new Image();
 fireFlowerRunRight.src = '../sprites/spriteFireFlowerRunRight.png'
-
 let fireFlowerRunLeft = new Image();
 fireFlowerRunLeft.src = '../sprites/spriteFireFlowerRunLeft.png'
-
 let fireFlowerJumpLeft = new Image();
 fireFlowerJumpLeft.src = '../sprites/spriteFireFlowerJumpLeft.png'
-
 let fireFlowerJumpRight = new Image();
 fireFlowerJumpRight.src = '../sprites/spriteFireFlowerJumpRight.png'
 
@@ -178,6 +169,7 @@ class Platform {
     c.drawImage(this.image, this.position.x, this.position.y)
 
     if (this.text) {
+      c.font = '20px Arial'
       c.fillStyle = 'red'
       c.fillText(this.text, this.position.x, this.position.y)
     }
@@ -215,7 +207,7 @@ class GenericObject {
 
 class Goomba {
   constructor({
-                position, velocity, distance = {
+    position, velocity, distance = {
       limit: 50,
       traveled: 0
     }
@@ -341,11 +333,13 @@ let platforms = [];
 let genericObjects = [];
 let particles = [];
 let fireFlowers = [];
+let lgPlatformImage;
 
+const goombaWidth = 43.33;
 let goombas = [
   new Goomba({
     position: {
-      x: 800,
+      x: 908 + lgPlatform.width - goombaWidth,
       y: 100
     },
     velocity: {
@@ -353,18 +347,92 @@ let goombas = [
       y: 0
     },
     distance: {
-      limit: 200,
+      limit: 400,
       traveled: 0
     }
   }),
   new Goomba({
     position: {
-      x: 1400,
+      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth,
       y: 100
     },
     velocity: {
       x: -0.3,
       y: 0
+    },
+    distance: {
+      limit: 400,
+      traveled: 0
+    }
+  }),
+  new Goomba({
+    position: {
+      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth,
+      y: 100
+    },
+    velocity: {
+      x: -0.3,
+      y: 0
+    },
+    distance: {
+      limit: 400,
+      traveled: 0
+    }
+  }),
+  new Goomba({
+    position: {
+      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth - goombaWidth,
+      y: 100
+    },
+    velocity: {
+      x: -0.3,
+      y: 0
+    },
+    distance: {
+      limit: 400,
+      traveled: 0
+    }
+  }),
+  new Goomba({
+    position: {
+      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth - goombaWidth - goombaWidth,
+      y: 100
+    },
+    velocity: {
+      x: -0.3,
+      y: 0
+    },
+    distance: {
+      limit: 400,
+      traveled: 0
+    }
+  }),
+  new Goomba({
+    position: {
+      x: 5135 + xtPlatform.width / 2 + goombaWidth,
+      y: 100
+    },
+    velocity: {
+      x: -0.3,
+      y: 0
+    },
+    distance: {
+      limit: 100,
+      traveled: 0
+    }
+  }),
+  new Goomba({
+    position: {
+      x: 6968,
+      y: 0
+    },
+    velocity: {
+      x: -0.3,
+      y: 0
+    },
+    distance: {
+      limit: 100,
+      traveled: 0
     }
   })
 ];
@@ -381,16 +449,7 @@ let keys = {
 
 let scrollOffset = 0
 
-function init() {
-  platform = new Image();
-  platform.src = './sprites/platform.png';
-
-  hills = new Image();
-  hills.src = './sprites/hills.png';
-
-  background = new Image();
-  background.src = './sprites/background.png';
-
+async function init() {
   fireFlowers = [
     new FireFlower({
       position: {
@@ -405,32 +464,79 @@ function init() {
   ]
 
   player = new Player();
-
-  particles = []
-
+  particles = [];
   platforms = [
     new Platform({
-      x: platform.width * 4 + 300 - 2 + platform.width - platformSmallTall.width, y: 270, image: platformSmallTall
+      x: 908 + 100,
+      y: 300,
+      image: blockTri,
+      block: true
     }),
     new Platform({
-      x: -1, y: 470, image: platform
-    }), new Platform({
-      x: platform.width - 3, y: 470, image: platform
+      x: 908 + 100 + block.width,
+      y: 100,
+      image: block,
+      block: true
     }),
     new Platform({
-      x: platform.width * 2 + 100, y: 470, image: platform, text: 'here', block: true
+      x: 1991 + lgPlatform.width - tPlatform.width,
+      y: canvas.height - lgPlatform.height - tPlatform.height,
+      image: tPlatform,
+      block: false
     }),
     new Platform({
-      x: platform.width * 3 + 300, y: 470, image: platform, text: 'here', block: true
+      x: 1991 + lgPlatform.width - tPlatform.width - 100,
+      y: canvas.height - lgPlatform.height - tPlatform.height + block.height,
+      image: block,
+      block: true
     }),
     new Platform({
-      x: platform.width * 4 + 300 - 2, y: 470, image: platform
+      x: 5712 + xtPlatform.width + 175,
+      y: canvas.height - xtPlatform.height,
+      image: block,
+      block: true
     }),
     new Platform({
-      x: platform.width * 5 + 700 - 2, y: 470, image: platform, text: 'here', block: true
+      x: 5712 + xtPlatform.width + 175 * 2,
+      y: canvas.height - xtPlatform.height,
+      image: block,
+      block: true,
     }),
     new Platform({
-      x: 850, y: 270, image: blockTri, block: true
+      x: 6116 + 175,
+      y: canvas.height - xtPlatform.height,
+      image: block,
+      block: true,
+    }),
+    new Platform({
+      x: 6116 + 175 * 2,
+      y: canvas.height - xtPlatform.height,
+      image: block,
+      block: true,
+    }),
+    new Platform({
+      x: 6116 + 175 * 3,
+      y: canvas.height - xtPlatform.height - 100,
+      image: block,
+      block: true,
+    }),
+    new Platform({
+      x: 6116 + 175 * 4,
+      y: canvas.height - xtPlatform.height - 200,
+      image: blockTri,
+      block: true,
+    }),
+    new Platform({
+      x: 6116 + 175 * 4 + blockTri.width,
+      y: canvas.height - xtPlatform.height - 200,
+      image: blockTri,
+      block: true,
+    }),
+    new Platform({
+      x: 6968 + 300,
+      y: canvas.height - lgPlatform.height,
+      image: lgPlatform,
+      block: true,
     })
   ];
 
@@ -457,6 +563,50 @@ function init() {
   }
 
   scrollOffset = 0
+
+  const platformsMap = ['lg', 'lg', 'gap', 'lg', 'gap', 'gap', 'lg', 'gap', 't', 'gap', 'xt', 'gap', 'xt', 'gap', 'gap', 'xt'];
+
+  let platformDistance = 0;
+
+  platformsMap.forEach(symbol => {
+    switch (symbol) {
+      case 'lg':
+        platforms.push(new Platform({
+          x: platformDistance,
+          y: canvas.height - lgPlatform.height,
+          image: lgPlatform,
+          block: true,
+          text: platformDistance
+        }))
+        platformDistance += lgPlatform.width - 2
+        break;
+
+      case 'gap':
+        platformDistance += 175
+        break;
+
+      case 't':
+        platforms.push(new Platform({
+          x: platformDistance,
+          y: canvas.height - tPlatform.height,
+          image: tPlatform,
+          block: true
+        }))
+        platformDistance += tPlatform.width - 2
+        break;
+
+      case 'xt':
+        platforms.push(new Platform({
+          x: platformDistance,
+          y: canvas.height - xtPlatform.height,
+          image: xtPlatform,
+          block: true,
+          text: platformDistance
+        }))
+        platformDistance += xtPlatform.width - 2
+        break;
+    }
+  })
 }
 
 function animate() {
@@ -688,7 +838,7 @@ function animate() {
   })
 
   // win condition
-  if (scrollOffset > platform.width * 5 + 300 - 2) {
+  if (platform && scrollOffset + 400 + player.width > 6968 + 300) {
     console.log('you win');
   }
 
@@ -708,7 +858,7 @@ function animate() {
     player.currentSprite = player.sprites.stand.left;
   } else if (!keys.right.pressed && lastKey === 'right' && player.currentSprite !== player.sprites.stand.right) {
     player.currentSprite = player.sprites.stand.right;
-    }
+  }
 
   // fireflower sprites
   if (!player.powerUps.fireFlower) return
@@ -759,7 +909,7 @@ window.addEventListener('keydown', ({keyCode}) => {
       if (!player.powerUps.fireFlower) return
 
       let velocity = 15
-      if (lastKey === 'left') velocity  = -velocity
+      if (lastKey === 'left') velocity = -velocity
       particles.push(new Particle({
         position: {
           x: player.position.x + player.width / 2,
@@ -773,7 +923,7 @@ window.addEventListener('keydown', ({keyCode}) => {
         color: 'red',
         fireball: true
       }))
-    break;
+      break;
   }
 })
 

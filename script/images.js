@@ -1,4 +1,3 @@
-/*import backgroundLevel2 from '../sprites/level2/background.png';*/
 const bgImage2 = new Image();
 bgImage2.src = '../sprites/level2/background.png';
 
@@ -20,6 +19,3 @@ export const images = {
     },
   },
 };
-
-/*
-images.background;*/

@@ -41,7 +41,7 @@ export const audio = {
     loop: true,
     autoplay: true,
   }),
-  audioWinLevel: new Howl({
+  audioObtainPowerUp: new Howl({
     src: ['../audio/audioWinLevel.mp3'],
     volume: 0.1,
   }),

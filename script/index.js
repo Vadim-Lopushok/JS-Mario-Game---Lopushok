@@ -910,6 +910,7 @@ function animate() {
       object1: player,
       object2: fireFlower,
     })) {
+      audio.audioObtainPowerUp.play();
       player.powerUps.fireFlower = true;
       setTimeout(() => {
         fireFlowers.splice(i, 1);

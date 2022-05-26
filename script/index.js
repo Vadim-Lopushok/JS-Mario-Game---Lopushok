@@ -7,6 +7,8 @@ import {
   objectsTouch,
 } from './utils.js';
 
+import {audio} from './audio.js';
+
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
@@ -487,7 +489,7 @@ let scrollOffset = 0;
 let flagPole;
 let game;
 
-async function init() {
+function init() {
   game = {
     disableUserInput: false,
   };
@@ -705,11 +707,14 @@ function animate() {
 
     //mario touches flagPole
     //win condition
+    //complete level
     if (!game.disableUserInput &&
         objectsTouch({
           object1: player,
           object2: flagPole,
         })) {
+      audio.audioCompleteLevel.play();
+      audio.audioMusicLevel1.stop();
       game.disableUserInput = true;
       player.velocity.x = 0;
       player.velocity.y = 0;
@@ -720,6 +725,10 @@ function animate() {
       if (player.powerUps.fireFlower)
         player.currentSprite = player.sprites.stand.fireFlower.right;
 
+      //flagpole slide
+      setTimeout(() => {
+        audio.audioDescend.play();
+      }, 200);
       gsap.to(player.position, {
         y: canvas.height - lgPlatform.height - player.height,
         duration: 1,
@@ -759,6 +768,9 @@ function animate() {
             fades: true,
           }));
         }
+        audio.audioFireworkBurst.play();
+        audio.audioFireworkWhistle.play();
+
         if (increment === 3) clearInterval(intervalId);
 
         increment++;
@@ -810,11 +822,12 @@ function animate() {
           }
         });
 
-    //goomba stomp squish
+    //goomba stomp squish / squash
     if (collisionTop({
       object1: player,
       object2: goomba,
     })) {
+      audio.goombaSquash.play();
       for (let i = 0; i < 50; i++) {
         particles.push(new Particle({
           position: {
@@ -838,14 +851,19 @@ function animate() {
         player.position.x <= goomba.position.x + goomba.width
     ) {
       //player hits goomba
+      //lose fireflower / lose powerup
       if (player.powerUps.fireFlower) {
         player.invincible = true;
         player.powerUps.fireFlower = false;
+        audio.audioLosePowerUp.play();
 
         setTimeout(() => {
           player.invincible = false;
         }, 1000);
-      } else if (!player.invincible) init();
+      } else if (!player.invincible) {
+        audio.audioDie.play();
+        init();
+      }
     }
   });
 
@@ -989,6 +1007,7 @@ function animate() {
 
   // lose condition
   if (player.position.y > canvas.height) {
+    audio.audioDie.play();
     init();
   }
 
@@ -1047,6 +1066,9 @@ window.addEventListener('keydown', ({keyCode}) => {
 
     case 87:
       player.velocity.y -= 25;
+
+      audio.audioJump.play();
+
       if (lastKey === 'right')
         player.currentSprite = player.sprites.jump.right;
       else player.currentSprite = player.sprites.jump.left;
@@ -1061,6 +1083,8 @@ window.addEventListener('keydown', ({keyCode}) => {
       console.log('space');
 
       if (!player.powerUps.fireFlower) return;
+
+      audio.audioFireFlowerShot.play();
 
       let velocity = 15;
       if (lastKey === 'left') velocity = -velocity;

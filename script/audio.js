@@ -36,7 +36,7 @@ export const audio = {
     volume: 0.1,
   }),
   audioMusicLevel1: new Howl({
-    src: ['../audio/audioMusicLevel1.mp3'],
+    src: ['../audio/audioMusicLevelOne.mp3'],
     volume: 0.1,
     loop: true,
     autoplay: true,

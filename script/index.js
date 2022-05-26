@@ -133,7 +133,7 @@ class Player {
   draw() {
     c.save();
     c.globalAlpha = this.opacity;
-    c.fillStyle = 'rgba(255, 0, 0, .2)';
+    c.fillStyle = 'rgba(255, 0, 0, 0)';
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
     c.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0,
         this.currentCropWidth, 353, this.position.x, this.position.y,

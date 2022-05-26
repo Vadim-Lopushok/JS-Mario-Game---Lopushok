@@ -316,6 +316,7 @@ class Particle {
                 radius,
                 color = '#654428',
                 fireball = false,
+                fades = false,
               }) {
     this.position = {
       x: position.x,
@@ -329,14 +330,19 @@ class Particle {
     this.ttl = 300;
     this.color = color;
     this.fireball = fireball;
+    this.opacity = 1;
+    this.fades = fades;
   }
 
   draw() {
+    c.save();
+    c.globalAlpha = this.opacity;
     c.beginPath();
     c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, false);
     c.fillStyle = this.color;
     c.fill();
     c.closePath();
+    c.restore();
   }
 
   update() {
@@ -347,6 +353,12 @@ class Particle {
 
     if (this.position.y + this.radius + this.velocity.y <= canvas.height)
       this.velocity.y += gravity * 0.4;
+
+    if (this.fades && this.opacity > 0) {
+      this.opacity -= 0.01;
+    }
+
+    if (this.opacity < 0) this.opacity = 0;
   }
 }
 
@@ -480,8 +492,8 @@ async function init() {
     disableUserInput: false,
   };
   flagPole = new GenericObject({
-    /*x: 6968 + 600,*/
-    x: 500,
+    x: 6968 + 600,
+    /*x: 500,*/
     y: canvas.height - lgPlatform.height - flagPoleSprite.height,
     image: flagPoleSprite,
   });
@@ -671,6 +683,17 @@ function animate() {
     GenericObject.velocity.x = 0;
   });
 
+  particles.forEach((particle, i) => {
+    particle.update();
+
+    if (particle.fireball &&
+        (particle.position.x - particle.radius >= canvas.width ||
+            particle.position.x + particle.radius <= 0))
+      setTimeout(() => {
+        particles.splice(i, 1);
+      }, 0);
+  });
+
   platforms.forEach(platform => {
     platform.update();
     platform.velocity.x = 0;
@@ -713,6 +736,33 @@ function animate() {
         duration: 2,
         ease: 'power1.in',
       });
+
+      //fireworks
+      const particleCount = 300;
+      const radians = Math.PI * 2 / particleCount;
+      const power = 8;
+      let increment = 1;
+
+      const intervalId = setInterval(() => {
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle({
+            position: {
+              x: canvas.width / 4 * increment,
+              y: canvas.height / 2,
+            },
+            velocity: {
+              x: Math.cos(radians * i) * power * Math.random(),
+              y: Math.sin(radians * i) * power * Math.random(),
+            },
+            radius: 3 * Math.random(),
+            color: `hsl(${Math.random() * 200}, 50%, 50%)`,
+            fades: true,
+          }));
+        }
+        if (increment === 3) clearInterval(intervalId);
+
+        increment++;
+      }, 1000);
     }
   }
 
@@ -798,16 +848,7 @@ function animate() {
       } else if (!player.invincible) init();
     }
   });
-  particles.forEach((particle, i) => {
-    particle.update();
 
-    if (particle.fireball &&
-        (particle.position.x - particle.radius >= canvas.width ||
-            particle.position.x + particle.radius <= 0))
-      setTimeout(() => {
-        particles.splice(i, 1);
-      }, 0);
-  });
   player.update();
 
   if (game.disableUserInput) return;
@@ -945,8 +986,6 @@ function animate() {
       })) fireFlower.velocity.y = 0;
     });
   });
-
-
 
   // lose condition
   if (player.position.y > canvas.height) {

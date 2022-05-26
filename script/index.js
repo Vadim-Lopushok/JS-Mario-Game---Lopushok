@@ -74,6 +74,7 @@ let gravity = 1.5;
 
 class Player {
   constructor() {
+    this.shooting = false;
     this.speed = 10;
     this.position = {
       x: 100,
@@ -113,6 +114,12 @@ class Player {
           left: fireFlowerJumpLeft,
         },
       },
+      shoot: {
+        fireFlower: {
+          right: images.mario.shoot.fireFlower.right,
+          left: images.mario.shoot.fireFlower.left,
+        },
+      },
     };
     this.currentSprite = this.sprites.stand.right;
     this.currentCropWidth = 398;
@@ -150,7 +157,9 @@ class Player {
             sprites.run.fireFlower.left)) this.frames = 0;
     else if (currentSprite === sprites.jump.right || currentSprite ===
         sprites.jump.left || currentSprite === sprites.jump.fireFlower.right ||
-        currentSprite === sprites.jump.fireFlower.left) this.frames = 0;
+        currentSprite === sprites.jump.fireFlower.left || currentSprite ===
+        sprites.shoot.fireFlower.left || currentSprite ===
+        sprites.shoot.fireFlower.right) this.frames = 0;
 
     this.draw();
     this.position.x += this.velocity.x;
@@ -1329,6 +1338,15 @@ function animate() {
   }
 
   // sprite Switch
+  if (player.shooting) {
+    player.currentSprite = player.sprites.shoot.fireFlower.right;
+
+    if (lastKey ===
+        'left') player.currentSprite = player.sprites.shoot.fireFlower.left;
+
+    return;
+  }
+  // sprite jump
   if (player.velocity.y !== 0) return;
 
   if (keys.right.pressed && lastKey === 'right' && player.currentSprite !==
@@ -1360,7 +1378,7 @@ function animate() {
       player.currentSprite !== player.sprites.stand.fireFlower.right) {
     player.currentSprite = player.sprites.stand.fireFlower.right;
   }
-}
+} // animation loop ends
 
 selectLevel(1);
 /*init();*/
@@ -1402,6 +1420,12 @@ window.addEventListener('keydown', ({keyCode}) => {
       console.log('space');
 
       if (!player.powerUps.fireFlower) return;
+
+      player.shooting = true;
+
+      setTimeout(() => {
+        player.shooting = false;
+      }, 100);
 
       audio.audioFireFlowerShot.play();
 

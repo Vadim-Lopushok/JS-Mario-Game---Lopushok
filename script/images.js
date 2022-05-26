@@ -10,7 +10,21 @@ lgPlatformLevelTwo.src = '../sprites/level2/lgPlatform.png';
 const mdPlatformLevelTwo = new Image();
 mdPlatformLevelTwo.src = '../sprites/level2/mdPlatform.png';
 
+const spriteFireFlowerShootLeft = new Image();
+spriteFireFlowerShootLeft.src = '../sprites/spriteFireFlowerShootLeft.png';
+
+const spriteFireFlowerShootRight = new Image();
+spriteFireFlowerShootRight.src = '../sprites/spriteFireFlowerShootRight.png';
+
 export const images = {
+  mario: {
+    shoot: {
+      fireFlower: {
+        right: spriteFireFlowerShootRight,
+        left: spriteFireFlowerShootLeft,
+      },
+    },
+  },
   levels: {
     1: {
       background: '',

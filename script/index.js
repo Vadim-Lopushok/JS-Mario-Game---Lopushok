@@ -900,7 +900,7 @@ function animate() {
       setTimeout(() => {
         gravity = 1.5;
         selectLevel(currentLevel + 1);
-      }, 5000);
+      }, 8000);
     }
   }
 
@@ -922,15 +922,19 @@ function animate() {
     goomba.update();
 
     // remove goomba on fireball hit
-    particles.filter(particle => particle.fireball).
-        forEach((particle, particleIndex) => {
-          if (particle.position.x + particle.radius >= goomba.position.x &&
-              particle.position.y + particle.radius >= goomba.position.y &&
-              particle.position.x - particle.radius <= goomba.position.x +
-              goomba.width && particle.position.y - particle.radius <=
-              goomba.position.y + goomba.height) {
-            for (let i = 0; i < 50; i++) {
-              particles.push(new Particle({
+    particles.forEach((particle, particleIndex) => {
+      if (
+          particle.fireball &&
+          particle.position.x + particle.radius >= goomba.position.x &&
+          particle.position.y + particle.radius >= goomba.position.y &&
+          particle.position.x - particle.radius <=
+          goomba.position.x + goomba.width &&
+          particle.position.y - particle.radius <=
+          goomba.position.y + goomba.height
+      ) {
+        for (let i = 0; i < 50; i++) {
+          particles.push(
+              new Particle({
                 position: {
                   x: goomba.position.x + goomba.width / 2,
                   y: goomba.position.y + goomba.height / 2,
@@ -940,14 +944,15 @@ function animate() {
                   y: (Math.random() - 0.5) * 15,
                 },
                 radius: Math.random() * 3,
-              }));
-            }
-            setTimeout(() => {
-              goombas.splice(index, 1);
-              particles.splice(particleIndex, 1);
-            }, 0);
-          }
-        });
+              }),
+          );
+        }
+        setTimeout(() => {
+          goombas.splice(index, 1);
+          particles.splice(particleIndex, 1);
+        }, 0);
+      }
+    });
 
     //goomba stomp squish / squash
     if (collisionTop({

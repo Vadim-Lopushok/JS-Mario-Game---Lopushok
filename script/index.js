@@ -256,9 +256,6 @@ class Goomba {
   }
 
   draw() {
-    /*c.fillStyle = 'red'
-    c.fillRect(this.position.x, this.position.y, this.width, this.height)*/
-
     c.drawImage(this.image, 130 * this.frames, 0, 130, 150, this.position.x,
         this.position.y, this.width, this.height);
   }
@@ -302,9 +299,6 @@ class FireFlower {
   }
 
   draw() {
-    /*c.fillStyle = 'red'
-    c.fillRect(this.position.x, this.position.y, this.width, this.height)*/
-
     c.drawImage(this.image, this.width * this.frames, 0, 56, 60,
         this.position.x, this.position.y, this.width, this.height);
   }
@@ -432,8 +426,6 @@ function init() {
       },
     }),
   ];
-
-  player = new Player();
 
   const goombaWidth = 43.33;
   goombas = [
@@ -667,7 +659,6 @@ function init() {
           y: canvas.height - lgPlatform.height,
           image: lgPlatform,
           block: true,
-          text: platformDistance,
         }));
         platformDistance += lgPlatform.width - 2;
         break;
@@ -692,7 +683,6 @@ function init() {
           y: canvas.height - xtPlatform.height,
           image: xtPlatform,
           block: true,
-          text: platformDistance,
         }));
         platformDistance += xtPlatform.width - 2;
         break;
@@ -738,8 +728,6 @@ function initLevel2() {
       },
     }),
   ];
-
-  player = new Player();
 
   const goombaWidth = 43.33;
   goombas = [
@@ -903,8 +891,6 @@ function initLevel2() {
     },
   };
 
-  scrollOffset = 0;
-
   const platformsMap = [
     'lg',
     'md',
@@ -941,10 +927,8 @@ function initLevel2() {
           y: canvas.height - mdPlatform.height,
           image: mdPlatform,
           block: true,
-          text: platformDistance,
         }));
         platformDistance += mdPlatform.width - 3;
-
         break;
 
       case 'lg':
@@ -954,10 +938,8 @@ function initLevel2() {
               y: canvas.height - lgPlatform.height,
               image: lgPlatform,
               block: true,
-              text: platformDistance,
             }),
         );
-
         platformDistance += lgPlatform.width - 3;
         break;
 
@@ -981,7 +963,6 @@ function initLevel2() {
           y: canvas.height - xtPlatform.height,
           image: xtPlatform,
           block: true,
-          text: platformDistance,
         }));
         platformDistance += xtPlatform.width - 2;
         break;
@@ -1019,9 +1000,7 @@ function animate() {
     flagPole.update();
     flagPole.velocity.x = 0;
 
-    //mario touches flagPole
-    //win condition
-    //complete level
+    //mario touches flagPole, win condition, complete level
     if (!game.disableUserInput &&
         objectsTouch({
           object1: player,
@@ -1086,7 +1065,6 @@ function animate() {
         audio.audioFireworkWhistle.play();
 
         if (increment === 3) clearInterval(intervalId);
-
         increment++;
       }, 1000);
 
@@ -1343,7 +1321,6 @@ function animate() {
 
     if (lastKey ===
         'left') player.currentSprite = player.sprites.shoot.fireFlower.left;
-
     return;
   }
   // sprite jump
@@ -1381,8 +1358,6 @@ function animate() {
 } // animation loop ends
 
 selectLevel(1);
-/*init();*/
-/*initLevel2();*/
 animate();
 
 window.addEventListener('keydown', ({keyCode}) => {

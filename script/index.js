@@ -8,6 +8,7 @@ import {
 } from './utils.js';
 
 import {audio} from './audio.js';
+import {images} from './images.js';
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -369,127 +370,37 @@ let platforms = [];
 let genericObjects = [];
 let particles = [];
 let fireFlowers = [];
-let lgPlatformImage;
-
-const goombaWidth = 43.33;
-let goombas = [
-  new Goomba({
-    position: {
-      x: 908 + lgPlatform.width - goombaWidth,
-      y: 100,
-    },
-    velocity: {
-      x: -0.3,
-      y: 0,
-    },
-    distance: {
-      limit: 400,
-      traveled: 0,
-    },
-  }),
-  new Goomba({
-    position: {
-      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth,
-      y: 100,
-    },
-    velocity: {
-      x: -0.3,
-      y: 0,
-    },
-    distance: {
-      limit: 400,
-      traveled: 0,
-    },
-  }),
-  new Goomba({
-    position: {
-      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth,
-      y: 100,
-    },
-    velocity: {
-      x: -0.3,
-      y: 0,
-    },
-    distance: {
-      limit: 400,
-      traveled: 0,
-    },
-  }),
-  new Goomba({
-    position: {
-      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
-          goombaWidth,
-      y: 100,
-    },
-    velocity: {
-      x: -0.3,
-      y: 0,
-    },
-    distance: {
-      limit: 400,
-      traveled: 0,
-    },
-  }),
-  new Goomba({
-    position: {
-      x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
-          goombaWidth - goombaWidth,
-      y: 100,
-    },
-    velocity: {
-      x: -0.3,
-      y: 0,
-    },
-    distance: {
-      limit: 400,
-      traveled: 0,
-    },
-  }),
-  new Goomba({
-    position: {
-      x: 5135 + xtPlatform.width / 2 + goombaWidth,
-      y: 100,
-    },
-    velocity: {
-      x: -0.3,
-      y: 0,
-    },
-    distance: {
-      limit: 100,
-      traveled: 0,
-    },
-  }),
-  new Goomba({
-    position: {
-      x: 6968,
-      y: 0,
-    },
-    velocity: {
-      x: -0.3,
-      y: 0,
-    },
-    distance: {
-      limit: 100,
-      traveled: 0,
-    },
-  }),
-];
+let goombas = [];
 
 let lastKey;
-let keys = {
-  right: {
-    pressed: false,
-  },
-  left: {
-    pressed: false,
-  },
-};
-
-let scrollOffset = 0;
+let keys;
+let scrollOffset;
 let flagPole;
 let game;
+let currentLevel = 1;
+
+function selectLevel(currentLevel) {
+  switch (currentLevel) {
+    case 1:
+      init();
+      break;
+    case 2:
+      initLevel2();
+      break;
+  }
+}
 
 function init() {
+  player = new Player();
+  keys = {
+    right: {
+      pressed: false,
+    },
+    left: {
+      pressed: false,
+    },
+  };
+  scrollOffset = 0;
   game = {
     disableUserInput: false,
   };
@@ -514,6 +425,111 @@ function init() {
   ];
 
   player = new Player();
+
+  const goombaWidth = 43.33;
+  goombas = [
+    new Goomba({
+      position: {
+        x: 908 + lgPlatform.width - goombaWidth,
+        y: 100,
+      },
+      velocity: {
+        x: -0.3,
+        y: 0,
+      },
+      distance: {
+        limit: 400,
+        traveled: 0,
+      },
+    }),
+    new Goomba({
+      position: {
+        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth,
+        y: 100,
+      },
+      velocity: {
+        x: -0.3,
+        y: 0,
+      },
+      distance: {
+        limit: 400,
+        traveled: 0,
+      },
+    }),
+    new Goomba({
+      position: {
+        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth,
+        y: 100,
+      },
+      velocity: {
+        x: -0.3,
+        y: 0,
+      },
+      distance: {
+        limit: 400,
+        traveled: 0,
+      },
+    }),
+    new Goomba({
+      position: {
+        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
+            goombaWidth,
+        y: 100,
+      },
+      velocity: {
+        x: -0.3,
+        y: 0,
+      },
+      distance: {
+        limit: 400,
+        traveled: 0,
+      },
+    }),
+    new Goomba({
+      position: {
+        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
+            goombaWidth - goombaWidth,
+        y: 100,
+      },
+      velocity: {
+        x: -0.3,
+        y: 0,
+      },
+      distance: {
+        limit: 400,
+        traveled: 0,
+      },
+    }),
+    new Goomba({
+      position: {
+        x: 5135 + xtPlatform.width / 2 + goombaWidth,
+        y: 100,
+      },
+      velocity: {
+        x: -0.3,
+        y: 0,
+      },
+      distance: {
+        limit: 100,
+        traveled: 0,
+      },
+    }),
+    new Goomba({
+      position: {
+        x: 6968,
+        y: 0,
+      },
+      velocity: {
+        x: -0.3,
+        y: 0,
+      },
+      distance: {
+        limit: 100,
+        traveled: 0,
+      },
+    }),
+  ];
+
   particles = [];
   platforms = [
     new Platform({
@@ -675,6 +691,110 @@ function init() {
   });
 }
 
+function initLevel2() {
+  const mountains = images.levels['2'].mountains;
+  let lgPlatform = images.levels['2'].lgPlatform;
+
+  player = new Player();
+
+  keys = {
+    right: {
+      pressed: false,
+    },
+    left: {
+      pressed: false,
+    },
+  };
+  scrollOffset = 0;
+  game = {
+    disableUserInput: false,
+  };
+
+  flagPole = new GenericObject({
+    x: 6968 + 600,
+    /*x: 500,*/
+    y: canvas.height - lgPlatform.height - flagPoleSprite.height,
+    image: flagPoleSprite,
+  });
+
+  fireFlowers = [];
+
+  player = new Player();
+
+  const goombaWidth = 43.33;
+  goombas = [];
+  particles = [];
+  platforms = [];
+
+  genericObjects = [
+    new GenericObject({
+      x: -1,
+      y: -1,
+      image: images.levels['2'].background,
+    }),
+    new GenericObject({
+      x: -1,
+      y: canvas.height - mountains.height,
+      image: mountains,
+    }),
+  ];
+
+  keys = {
+    right: {
+      pressed: false,
+    },
+    left: {
+      pressed: false,
+    },
+  };
+
+  scrollOffset = 0;
+
+  const platformsMap = ['lg', 'md'];
+
+  let platformDistance = 0;
+
+  platformsMap.forEach(symbol => {
+    switch (symbol) {
+      case 'lg':
+        platforms.push(new Platform({
+          x: platformDistance,
+          y: canvas.height - lgPlatform.height,
+          image: lgPlatform,
+          block: true,
+          text: platformDistance,
+        }));
+        platformDistance += lgPlatform.width - 2;
+        break;
+
+      case 'gap':
+        platformDistance += 175;
+        break;
+
+      case 't':
+        platforms.push(new Platform({
+          x: platformDistance,
+          y: canvas.height - tPlatform.height,
+          image: tPlatform,
+          block: true,
+        }));
+        platformDistance += tPlatform.width - 2;
+        break;
+
+      case 'xt':
+        platforms.push(new Platform({
+          x: platformDistance,
+          y: canvas.height - xtPlatform.height,
+          image: xtPlatform,
+          block: true,
+          text: platformDistance,
+        }));
+        platformDistance += xtPlatform.width - 2;
+        break;
+    }
+  });
+}
+
 function animate() {
   requestAnimationFrame(animate);
   c.fillStyle = 'white';
@@ -775,6 +895,12 @@ function animate() {
 
         increment++;
       }, 1000);
+
+      //switch to the next level
+      setTimeout(() => {
+        gravity = 1.5;
+        selectLevel(currentLevel + 1);
+      }, 5000);
     }
   }
 
@@ -862,7 +988,7 @@ function animate() {
         }, 1000);
       } else if (!player.invincible) {
         audio.audioDie.play();
-        init();
+        selectLevel(currentLevel);
       }
     }
   });
@@ -1008,7 +1134,8 @@ function animate() {
   // lose condition
   if (player.position.y > canvas.height) {
     audio.audioDie.play();
-    init();
+    selectLevel(currentLevel);
+    ;
   }
 
   // sprite Switch
@@ -1045,7 +1172,9 @@ function animate() {
   }
 }
 
-init();
+selectLevel(1);
+/*init();*/
+/*initLevel2();*/
 animate();
 
 window.addEventListener('keydown', ({keyCode}) => {

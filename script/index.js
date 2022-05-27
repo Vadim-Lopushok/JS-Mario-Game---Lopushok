@@ -16,60 +16,6 @@ const c = canvas.getContext('2d');
 canvas.width = 1024;
 canvas.height = 576;
 
-let platform = new Image();
-platform.src = '../sprites/platform.png';
-let hills = new Image();
-hills.src = '../sprites/hills.png';
-let background = new Image();
-background.src = '../sprites/background.png';
-let platformSmallTall = new Image();
-platformSmallTall.src = '../sprites/platformSmallTall.png';
-let block = new Image();
-block.src = '../sprites/block.png';
-let blockTri = new Image();
-blockTri.src = '../sprites/blockTri.png';
-
-let lgPlatform = new Image();
-lgPlatform.src = '../sprites/lgPlatform.png';
-let mdPlatform = new Image();
-mdPlatform.src = '../sprites/mdPlatform.png';
-let tPlatform = new Image();
-tPlatform.src = '../sprites/tPlatform.png';
-let xtPlatform = new Image();
-xtPlatform.src = '../sprites/xtPlatform.png';
-let flagPoleSprite = new Image();
-flagPoleSprite.src = '../sprites/flagPole.png';
-
-let spriteRunLeft = new Image();
-spriteRunLeft.src = '../sprites/spriteMarioRunLeft.png';
-let spriteRunRight = new Image();
-spriteRunRight.src = '../sprites/spriteMarioRunRight.png';
-let spriteStandLeft = new Image();
-spriteStandLeft.src = '../sprites/spriteMarioStandLeft.png';
-let spriteStandRight = new Image();
-spriteStandRight.src = '../sprites/spriteMarioStandRight.png';
-let spriteMarioJumpLeft = new Image();
-spriteMarioJumpLeft.src = '../sprites/spriteMarioJumpLeft.png';
-let spriteMarioJumpRight = new Image();
-spriteMarioJumpRight.src = '../sprites/spriteMarioJumpRight.png';
-let spriteGoomba = new Image();
-spriteGoomba.src = '../sprites/spriteGoomba.png';
-
-let fireFlower = new Image();
-fireFlower.src = '../sprites/spriteFireFlower.png';
-let fireFlowerStandLeft = new Image();
-fireFlowerStandLeft.src = '../sprites/spriteFireFlowerStandLeft.png';
-let fireFlowerStandRight = new Image();
-fireFlowerStandRight.src = '../sprites/spriteFireFlowerStandRight.png';
-let fireFlowerRunRight = new Image();
-fireFlowerRunRight.src = '../sprites/spriteFireFlowerRunRight.png';
-let fireFlowerRunLeft = new Image();
-fireFlowerRunLeft.src = '../sprites/spriteFireFlowerRunLeft.png';
-let fireFlowerJumpLeft = new Image();
-fireFlowerJumpLeft.src = '../sprites/spriteFireFlowerJumpLeft.png';
-let fireFlowerJumpRight = new Image();
-fireFlowerJumpRight.src = '../sprites/spriteFireFlowerJumpRight.png';
-
 let gravity = 1.5;
 
 class Player {
@@ -91,27 +37,27 @@ class Player {
     this.frames = 0;
     this.sprites = {
       stand: {
-        right: spriteStandRight,
-        left: spriteStandLeft,
+        right: images.mario.stand.right,
+        left: images.mario.stand.left,
         fireFlower: {
-          right: fireFlowerStandRight,
-          left: fireFlowerStandLeft,
+          right: images.mario.fireFlower.stand.right,
+          left: images.mario.fireFlower.stand.left,
         },
       },
       run: {
-        right: spriteRunRight,
-        left: spriteRunLeft,
+        right: images.mario.run.right,
+        left: images.mario.run.left,
         fireFlower: {
-          right: fireFlowerRunRight,
-          left: fireFlowerRunLeft,
+          right: images.mario.fireFlower.run.right,
+          left: images.mario.fireFlower.run.left,
         },
       },
       jump: {
-        right: spriteMarioJumpRight,
-        left: spriteMarioJumpLeft,
+        right: images.mario.jump.right,
+        left: images.mario.jump.left,
         fireFlower: {
-          right: fireFlowerJumpRight,
-          left: fireFlowerJumpLeft,
+          right: images.mario.fireFlower.jump.right,
+          left: images.mario.fireFlower.jump.left,
         },
       },
       shoot: {
@@ -250,7 +196,7 @@ class Goomba {
 
     this.width = 43.33;
     this.height = 50;
-    this.image = spriteGoomba;
+    this.image = images.goomba.spriteGoomba;
     this.frames = 0;
     this.distance = distance;
   }
@@ -294,7 +240,7 @@ class FireFlower {
 
     this.width = 56;
     this.height = 60;
-    this.image = fireFlower;
+    this.image = images.mario.fireFlower.stand.face;
     this.frames = 0;
   }
 
@@ -410,8 +356,8 @@ function init() {
   };
   flagPole = new GenericObject({
     x: 6968 + 600,
-    y: canvas.height - lgPlatform.height - flagPoleSprite.height,
-    image: flagPoleSprite,
+    y: canvas.height - images.levels['1'].lgPlatform.height - images.levels['1'].flagPoleSprite.height,
+    image: images.levels['1'].flagPoleSprite,
   });
 
   fireFlowers = [
@@ -431,7 +377,7 @@ function init() {
   goombas = [
     new Goomba({
       position: {
-        x: 908 + lgPlatform.width - goombaWidth,
+        x: 908 + images.levels['1'].lgPlatform.width - goombaWidth,
         y: 100,
       },
       velocity: {
@@ -445,7 +391,7 @@ function init() {
     }),
     new Goomba({
       position: {
-        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth,
+        x: 3249 + images.levels['1'].lgPlatform - goombaWidth - goombaWidth,
         y: 100,
       },
       velocity: {
@@ -459,7 +405,7 @@ function init() {
     }),
     new Goomba({
       position: {
-        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth,
+        x: 3249 + images.levels['1'].lgPlatform.width - goombaWidth - goombaWidth - goombaWidth,
         y: 100,
       },
       velocity: {
@@ -473,7 +419,7 @@ function init() {
     }),
     new Goomba({
       position: {
-        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
+        x: 3249 + images.levels['1'].lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
             goombaWidth,
         y: 100,
       },
@@ -488,7 +434,7 @@ function init() {
     }),
     new Goomba({
       position: {
-        x: 3249 + lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
+        x: 3249 + images.levels['1'].lgPlatform.width - goombaWidth - goombaWidth - goombaWidth -
             goombaWidth - goombaWidth,
         y: 100,
       },
@@ -503,7 +449,7 @@ function init() {
     }),
     new Goomba({
       position: {
-        x: 5135 + xtPlatform.width / 2 + goombaWidth,
+        x: 5135 + images.levels['1'].xtPlatform.width / 2 + goombaWidth,
         y: 100,
       },
       velocity: {
@@ -536,73 +482,73 @@ function init() {
     new Platform({
       x: 908 + 100,
       y: 300,
-      image: blockTri,
+      image: images.levels['1'].blockTri,
       block: true,
     }),
     new Platform({
-      x: 908 + 100 + block.width,
+      x: 908 + 100 + images.levels['1'].block.width,
       y: 100,
-      image: block,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
-      x: 1991 + lgPlatform.width - tPlatform.width,
-      y: canvas.height - lgPlatform.height - tPlatform.height,
-      image: tPlatform,
+      x: 1991 + images.levels['1'].lgPlatform.width - images.levels['1'].tPlatform.width,
+      y: canvas.height - images.levels['1'].lgPlatform.height - images.levels['1'].tPlatform.height,
+      image: images.levels['1'].tPlatform,
       block: false,
     }),
     new Platform({
-      x: 1991 + lgPlatform.width - tPlatform.width - 100,
-      y: canvas.height - lgPlatform.height - tPlatform.height + block.height,
-      image: block,
+      x: 1991 + images.levels['1'].lgPlatform.width - images.levels['1'].tPlatform.width - 100,
+      y: canvas.height - images.levels['1'].lgPlatform.height - images.levels['1'].tPlatform.height + images.levels['1'].block.height,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
-      x: 5712 + xtPlatform.width + 175,
-      y: canvas.height - xtPlatform.height,
-      image: block,
+      x: 5712 + images.levels['1'].xtPlatform.width + 175,
+      y: canvas.height - images.levels['1'].xtPlatform.height,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
-      x: 5712 + xtPlatform.width + 175 * 2,
-      y: canvas.height - xtPlatform.height,
-      image: block,
+      x: 5712 + images.levels['1'].xtPlatform.width + 175 * 2,
+      y: canvas.height - images.levels['1'].xtPlatform.height,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
       x: 6116 + 175,
-      y: canvas.height - xtPlatform.height,
-      image: block,
+      y: canvas.height - images.levels['1'].xtPlatform.height,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
       x: 6116 + 175 * 2,
-      y: canvas.height - xtPlatform.height,
-      image: block,
+      y: canvas.height - images.levels['1'].xtPlatform.height,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
       x: 6116 + 175 * 3,
-      y: canvas.height - xtPlatform.height - 100,
-      image: block,
+      y: canvas.height - images.levels['1'].xtPlatform.height - 100,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
       x: 6116 + 175 * 4,
-      y: canvas.height - xtPlatform.height - 200,
-      image: blockTri,
+      y: canvas.height - images.levels['1'].xtPlatform.height - 200,
+      image: images.levels['1'].blockTri,
       block: true,
     }),
     new Platform({
-      x: 6116 + 175 * 4 + blockTri.width,
-      y: canvas.height - xtPlatform.height - 200,
-      image: blockTri,
+      x: 6116 + 175 * 4 + images.levels['1'].blockTri.width,
+      y: canvas.height - images.levels['1'].xtPlatform.height - 200,
+      image: images.levels['1'].blockTri,
       block: true,
     }),
     new Platform({
       x: 6968 + 300,
-      y: canvas.height - lgPlatform.height,
-      image: lgPlatform,
+      y: canvas.height - images.levels['1'].lgPlatform.height,
+      image: images.levels['1'].lgPlatform,
       block: true,
     }),
   ];
@@ -611,12 +557,12 @@ function init() {
     new GenericObject({
       x: -1,
       y: -1,
-      image: background,
+      image: images.levels['1'].background,
     }),
     new GenericObject({
       x: -1,
       y: -1,
-      image: hills,
+      image: images.levels['1'].hills,
     }),
   ];
 
@@ -656,11 +602,11 @@ function init() {
       case 'lg':
         platforms.push(new Platform({
           x: platformDistance,
-          y: canvas.height - lgPlatform.height,
-          image: lgPlatform,
+          y: canvas.height - images.levels['1'].lgPlatform.height,
+          image: images.levels['1'].lgPlatform,
           block: true,
         }));
-        platformDistance += lgPlatform.width - 2;
+        platformDistance += images.levels['1'].lgPlatform.width - 2;
         break;
 
       case 'gap':
@@ -670,21 +616,21 @@ function init() {
       case 't':
         platforms.push(new Platform({
           x: platformDistance,
-          y: canvas.height - tPlatform.height,
-          image: tPlatform,
+          y: canvas.height - images.levels['1'].tPlatform.height,
+          image: images.levels['1'].tPlatform,
           block: true,
         }));
-        platformDistance += tPlatform.width - 2;
+        platformDistance += images.levels['1'].tPlatform.width - 2;
         break;
 
       case 'xt':
         platforms.push(new Platform({
           x: platformDistance,
-          y: canvas.height - xtPlatform.height,
-          image: xtPlatform,
+          y: canvas.height - images.levels['1'].xtPlatform.height,
+          image: images.levels['1'].xtPlatform,
           block: true,
         }));
-        platformDistance += xtPlatform.width - 2;
+        platformDistance += images.levels['1'].xtPlatform.width - 2;
         break;
     }
   });
@@ -712,8 +658,8 @@ function initLevel2() {
 
   flagPole = new GenericObject({
     x: 7680,
-    y: canvas.height - lgPlatform.height - flagPoleSprite.height,
-    image: flagPoleSprite,
+    y: canvas.height - lgPlatform.height - images.levels['1'].flagPoleSprite.height,
+    image: images.levels['1'].flagPoleSprite,
   });
 
   fireFlowers = [
@@ -756,7 +702,7 @@ function initLevel2() {
             200 +
             200 +
             200 +
-            block.width / 2 -
+            images.levels['1'].block.width / 2 -
             goombaWidth / 2,
         y: 100,
       },
@@ -804,37 +750,37 @@ function initLevel2() {
     new Platform({
       x: 903 + mdPlatform.width + 115,
       y: 300,
-      image: blockTri,
+      image: images.levels['1'].blockTri,
       block: true,
     }),
     new Platform({
-      x: 903 + mdPlatform.width + 115 + blockTri.width,
+      x: 903 + mdPlatform.width + 115 + images.levels['1'].blockTri.width,
       y: 300,
-      image: blockTri,
+      image: images.levels['1'].blockTri,
       block: true,
     }),
     new Platform({
       x: 1878 + lgPlatform.width + 175,
       y: 360,
-      image: block,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
       x: 1878 + lgPlatform.width + 155 + 200,
       y: 300,
-      image: block,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
       x: 1878 + lgPlatform.width + 155 + 200 + 200,
       y: 330,
-      image: block,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
       x: 1878 + lgPlatform.width + 155 + 200 + 200 + 200,
       y: 240,
-      image: block,
+      image: images.levels['1'].block,
       block: true,
     }),
     new Platform({
@@ -950,21 +896,21 @@ function initLevel2() {
       case 't':
         platforms.push(new Platform({
           x: platformDistance,
-          y: canvas.height - tPlatform.height,
-          image: tPlatform,
+          y: canvas.height - images.levels['1'].tPlatform.height,
+          image: images.levels['1'].tPlatform,
           block: true,
         }));
-        platformDistance += tPlatform.width - 2;
+        platformDistance += images.levels['1'].tPlatform.width - 2;
         break;
 
       case 'xt':
         platforms.push(new Platform({
           x: platformDistance,
-          y: canvas.height - xtPlatform.height,
-          image: xtPlatform,
+          y: canvas.height - images.levels['1'].xtPlatform.height,
+          image: images.levels['1'].xtPlatform,
           block: true,
         }));
-        platformDistance += xtPlatform.width - 2;
+        platformDistance += images.levels['1'].xtPlatform.width - 2;
         break;
     }
   });
@@ -1023,7 +969,7 @@ function animate() {
         audio.audioDescend.play();
       }, 200);
       gsap.to(player.position, {
-        y: canvas.height - lgPlatform.height - player.height,
+        y: canvas.height - images.levels['1'].lgPlatform.height - player.height,
         duration: 1,
         onComplete() {
           player.currentSprite = player.sprites.run.right;

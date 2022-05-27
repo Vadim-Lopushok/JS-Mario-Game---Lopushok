@@ -72,16 +72,22 @@ spriteGoomba.src = '../sprites/spriteGoomba.png';
 
 let fireFlower = new Image();
 fireFlower.src = '../sprites/spriteFireFlower.png';
+
 let fireFlowerStandLeft = new Image();
 fireFlowerStandLeft.src = '../sprites/spriteFireFlowerStandLeft.png';
+
 let fireFlowerStandRight = new Image();
 fireFlowerStandRight.src = '../sprites/spriteFireFlowerStandRight.png';
+
 let fireFlowerRunRight = new Image();
 fireFlowerRunRight.src = '../sprites/spriteFireFlowerRunRight.png';
+
 let fireFlowerRunLeft = new Image();
 fireFlowerRunLeft.src = '../sprites/spriteFireFlowerRunLeft.png';
+
 let fireFlowerJumpLeft = new Image();
 fireFlowerJumpLeft.src = '../sprites/spriteFireFlowerJumpLeft.png';
+
 let fireFlowerJumpRight = new Image();
 fireFlowerJumpRight.src = '../sprites/spriteFireFlowerJumpRight.png';
 

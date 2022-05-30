@@ -1,34 +1,3 @@
-/*function randomIntFromRange(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function randomColor(colors) {
-  return colors [Math.floor(Math.random() * colors.length)]
-}
-
-function distance(x1, y1, x2, y2) {
-  const xDist = x2 - x1
-  const yDist = y2 - y1
-
-  return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
-}*/
-
-/*export function  createImage(imageSrc) {
-  const image = new Image()
-  image.src = imageSrc
-  return image
-}
-
-export function createImageAsync(imageSrc) {
-  return new Promise((resolve) => {
-    const image = new Image()
-    image.onload = () => {
-      resolve(image)
-    }
-    image.src = imageSrc
-  })
-}*/
-
 export function isOnTopPlatform({object, platform}) {
   return (object.position.y + object.height <= platform.position.y &&
       object.position.y + object.height + object.velocity.y >=
@@ -75,3 +44,19 @@ export function objectsTouch({object1, object2}) {
       object1.position.y + object1.height >= object2.position.y &&
       object1.position.y <= object2.position.y + object2.height);
 }
+
+/*export function  createImage(imageSrc) {
+  const image = new Image()
+  image.src = imageSrc
+  return image
+}
+
+export function createImageAsync(imageSrc) {
+  return new Promise((resolve) => {
+    const image = new Image()
+    image.onload = () => {
+      resolve(image)
+    }
+    image.src = imageSrc
+  })
+}*/

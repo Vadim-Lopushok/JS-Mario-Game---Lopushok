@@ -1,94 +1,94 @@
-let bgImage2 = new Image();
+const bgImage2 = new Image();
 bgImage2.src = '../sprites/level2/background.png';
 
-let mountains = new Image();
+const mountains = new Image();
 mountains.src = '../sprites/level2/mountains.png';
 
-let lgPlatformLevelTwo = new Image();
+const lgPlatformLevelTwo = new Image();
 lgPlatformLevelTwo.src = '../sprites/level2/lgPlatform.png';
 
-let mdPlatformLevelTwo = new Image();
+const mdPlatformLevelTwo = new Image();
 mdPlatformLevelTwo.src = '../sprites/level2/mdPlatform.png';
 
-let spriteFireFlowerShootLeft = new Image();
+const spriteFireFlowerShootLeft = new Image();
 spriteFireFlowerShootLeft.src = '../sprites/spriteFireFlowerShootLeft.png';
 
-let spriteFireFlowerShootRight = new Image();
+const spriteFireFlowerShootRight = new Image();
 spriteFireFlowerShootRight.src = '../sprites/spriteFireFlowerShootRight.png';
 
-let spriteRunLeft = new Image();
+const spriteRunLeft = new Image();
 spriteRunLeft.src = '../sprites/spriteMarioRunLeft.png';
 
-let spriteRunRight = new Image();
+const spriteRunRight = new Image();
 spriteRunRight.src = '../sprites/spriteMarioRunRight.png';
 
-let spriteStandLeft = new Image();
+const spriteStandLeft = new Image();
 spriteStandLeft.src = '../sprites/spriteMarioStandLeft.png';
 
-let spriteStandRight = new Image();
+const spriteStandRight = new Image();
 spriteStandRight.src = '../sprites/spriteMarioStandRight.png';
 
-let spriteMarioJumpLeft = new Image();
+const spriteMarioJumpLeft = new Image();
 spriteMarioJumpLeft.src = '../sprites/spriteMarioJumpLeft.png';
 
-let spriteMarioJumpRight = new Image();
+const spriteMarioJumpRight = new Image();
 spriteMarioJumpRight.src = '../sprites/spriteMarioJumpRight.png';
 
-let background = new Image();
+const background = new Image();
 background.src = '../sprites/background.png';
 
-let platform = new Image();
+const platform = new Image();
 platform.src = '../sprites/platform.png';
 
-let hills = new Image();
+const hills = new Image();
 hills.src = '../sprites/hills.png';
 
-let platformSmallTall = new Image();
+const platformSmallTall = new Image();
 platformSmallTall.src = '../sprites/platformSmallTall.png';
 
-let block = new Image();
+const block = new Image();
 block.src = '../sprites/block.png';
 
-let blockTri = new Image();
+const blockTri = new Image();
 blockTri.src = '../sprites/blockTri.png';
 
-let lgPlatform = new Image();
+const lgPlatform = new Image();
 lgPlatform.src = '../sprites/lgPlatform.png';
 
-let mdPlatform = new Image();
+const mdPlatform = new Image();
 mdPlatform.src = '../sprites/mdPlatform.png';
 
-let tPlatform = new Image();
+const tPlatform = new Image();
 tPlatform.src = '../sprites/tPlatform.png';
 
-let xtPlatform = new Image();
+const xtPlatform = new Image();
 xtPlatform.src = '../sprites/xtPlatform.png';
 
-let flagPoleSprite = new Image();
+const flagPoleSprite = new Image();
 flagPoleSprite.src = '../sprites/flagPole.png';
 
-let spriteGoomba = new Image();
+const spriteGoomba = new Image();
 spriteGoomba.src = '../sprites/spriteGoomba.png';
 
-let fireFlower = new Image();
+const fireFlower = new Image();
 fireFlower.src = '../sprites/spriteFireFlower.png';
 
-let fireFlowerStandLeft = new Image();
+const fireFlowerStandLeft = new Image();
 fireFlowerStandLeft.src = '../sprites/spriteFireFlowerStandLeft.png';
 
-let fireFlowerStandRight = new Image();
+const fireFlowerStandRight = new Image();
 fireFlowerStandRight.src = '../sprites/spriteFireFlowerStandRight.png';
 
-let fireFlowerRunRight = new Image();
+const fireFlowerRunRight = new Image();
 fireFlowerRunRight.src = '../sprites/spriteFireFlowerRunRight.png';
 
-let fireFlowerRunLeft = new Image();
+const fireFlowerRunLeft = new Image();
 fireFlowerRunLeft.src = '../sprites/spriteFireFlowerRunLeft.png';
 
-let fireFlowerJumpLeft = new Image();
+const fireFlowerJumpLeft = new Image();
 fireFlowerJumpLeft.src = '../sprites/spriteFireFlowerJumpLeft.png';
 
-let fireFlowerJumpRight = new Image();
+const fireFlowerJumpRight = new Image();
 fireFlowerJumpRight.src = '../sprites/spriteFireFlowerJumpRight.png';
 
 export const images = {

@@ -1,16 +1,177 @@
+@font-face {
+  font-family: 'Press Start 2P', cursive;
+  src: url(../fonts/PressStart2P-Regular.ttf);
+}
 * {
   margin: 0;
+  padding:0;
 }
-
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
+  height: 100vh;
+  width: 100vw;
+  background: url(../sprites/background/marioBG.jpg) center;
+  background-size: cover;
 }
 
-/*
-canvas {
-  width: 100%;
-  object-fit: contain;
-}*/
+.logo {
+  margin: auto;
+  width: 100vw;
+  height: 60vh;
+  background: url(../sprites/background/logoMario.png) center no-repeat;
+}
+
+.main {
+  padding-top: 5vh;
+  text-align: center;
+}
+
+.main-field {
+  margin:auto;
+  width: 100vw;
+  height: 100vh;
+}
+
+svg, canvas {
+  margin-top: 5vh;
+  width: 700px;
+  height: 550px;
+  border: solid 4px #092b6e;
+}
+
+.list-block {
+  margin:auto;
+}
+
+.list {
+  margin-top: -5vh;
+  list-style: none;
+}
+
+.list li {
+  margin: auto;
+  padding: .1vw;
+  width: 40vw;
+  text-align: center;
+}
+
+.buttons {
+  width: 40vw;
+  max-width: 260px;
+  height: 6vh;
+  background-color: transparent;
+  border: none;
+  font-size: 4vh;
+  font-family: 'Press Start 2P', cursive;
+}
+.buttons:hover {
+  color: #e11930;
+}
+
+.main-menu-bottom{
+  position: absolute;
+  top: 10vh;
+  left: 1vh;
+}
+
+.new-game-bottom {
+  position: absolute;
+  top: 20vh;
+  left: 1vh;
+  display: none;
+}
+
+
+.name-field {
+  width: 55vw;
+  height: 6vh;
+  font-size: 5vh;
+}
+
+.rotate-to-portrait {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  background-color: #dadada;
+}
+.rotate-to-portrait span{
+  display: inline-block;
+  margin-top: 40vh;
+  font-size: 5vh;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.rules {
+  padding-top: 30vh;
+  text-align: center;
+  font-size: 3vh;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.rules .title {
+  padding: 3vh;
+  font-size: 5vh;
+}
+
+@media screen and (orientation: portrait) and (max-width: 750px) {
+  .logo {
+    width: 100vw;
+    height: 50vh;
+    min-height: 350px;
+    margin: auto;
+    background-size: contain;
+  }
+  .list li {
+    padding: .3vw;
+    width: 50vw;
+    margin: auto;
+  }
+
+  .buttons {
+    width: 50vw;
+    height: 5vh;
+    background-color: transparent;
+    border: none;
+    font-size: 3vh;
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  .main-menu-bottom {
+    top: 0;
+    left: 0;
+    right: 0;
+    margin:auto;
+  }
+
+  .new-game-bottom {
+    top: 50vh;
+    left: 0;
+    right: 0;
+    margin:auto;
+  }
+
+  svg, canvas {
+    width: calc(100vw - 20px);;
+    height: calc(100vh - 50px);
+    max-height: 550px;
+  }
+
+  .list li {
+    padding-top: 1.5vh;
+  }
+
+  .save-record {
+    width: 80vw;
+    height: 22vh;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 700px) {
+  .logo {
+    background: url(../sprites/background/marioBG.jpg) center no-repeat;
+  }
+
+  .buttons[value="New Game"] {
+    display: none;
+  }
+}

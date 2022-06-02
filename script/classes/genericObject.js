@@ -1,4 +1,6 @@
-class GenericObject {
+import { c } from '../game.js'
+
+export class GenericObject {
   constructor({x, y, image}) {
     this.position = {
       x,
@@ -21,5 +23,3 @@ class GenericObject {
     this.position.x += this.velocity.x;
   }
 }
-
-export { GenericObject }

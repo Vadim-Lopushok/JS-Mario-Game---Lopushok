@@ -1,6 +1,7 @@
-import { images } from '../images/images'
+import { images } from '../images/images.js'
+import { c, canvas, gravity } from '../game.js'
 
-class Player {
+export class Player {
   constructor() {
     this.shooting = false;
     this.speed = 10;
@@ -102,5 +103,3 @@ class Player {
     } else this.opacity = 1;
   }
 }
-
-export { Player };

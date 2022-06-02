@@ -1,12 +1,7 @@
+import { c, canvas, gravity } from '../game.js'
+
 class Particle {
-  constructor({
-    position,
-    velocity,
-    radius,
-    color = '#654428',
-    fireball = false,
-    fades = false,
-  }) {
+  constructor({ position, velocity, radius, color = '#654428', fireball = false, fades = false, }) {
     this.position = {
       x: position.x,
       y: position.y,

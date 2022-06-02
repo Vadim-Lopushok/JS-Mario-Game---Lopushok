@@ -1,4 +1,6 @@
-class Platform {
+import { c } from '../game.js'
+
+export class Platform {
   constructor({x, y, image, block, text}) {
     this.position = {
       x,
@@ -29,5 +31,3 @@ class Platform {
     this.position.x += this.velocity.x;
   }
 }
-
-export { Platform };

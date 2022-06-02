@@ -1,4 +1,5 @@
-import { images } from '../images/images'
+import { images } from '../images/images.js'
+import { c, canvas, gravity } from '../game.js'
 
 class Goomba {
   constructor({

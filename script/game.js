@@ -1,25 +1,31 @@
-import { Player } from './classes/player'
-import { GenericObject } from './classes/genericObject'
-import { Platform } from './classes/platform'
-import { Particle } from './classes/particle'
-import { Goomba } from './classes/goomba'
-import { FireFlower } from './classes/fireFlower'
-import { audio } from './audio/audio'
-import { images } from './images/images'
+import { Player } from './classes/player.js'
+import { GenericObject } from './classes/genericObject.js'
+import { Platform } from './classes/platform.js'
+import { Particle } from './classes/particle.js'
+import { Goomba } from './classes/goomba.js'
+import { FireFlower } from './classes/fireFlower.js'
+import { audio } from './audio/audio.js'
+import { images } from './images/images.js'
 import {
   collisionTop, hitBottomOfPlatform,
   hitSideOfPlatform,
   isOnTopPlatform, isOnTopPlatformCircle,
   objectsTouch,
-} from './utils'
+} from './utils.js'
 
-  const canvas = document.createElement('canvas');
-  const c = canvas.getContext('2d');
+/*
+export default class Game {
+  constructor () {}
+}
+*/
+
+  export const canvas = document.createElement('canvas');
+  export const c = canvas.getContext('2d');
 
   canvas.width = 1024;
   canvas.height = 576;
 
-  let gravity = 1.5;
+  export let gravity = 1.5;
   let player = new Player();
   let platforms = [];
   let genericObjects = [];

@@ -31,7 +31,7 @@ body {
   height: 100vh;
 }
 
-svg, canvas {
+canvas {
   margin-top: 5vh;
   width: 700px;
   height: 550px;
@@ -60,11 +60,12 @@ svg, canvas {
   height: 6vh;
   background-color: transparent;
   border: none;
-  font-size: 4vh;
+  font-size: 3vh;
   font-family: 'Press Start 2P', cursive;
 }
 .buttons:hover {
-  color: #e11930;
+  cursor: pointer;
+  color: #05dbf8;
 }
 
 .main-menu-bottom{
@@ -113,6 +114,31 @@ svg, canvas {
   font-size: 5vh;
 }
 
+@media (min-width: 751px) and (max-width:1200px) {
+  .logo {
+    width: 50vw;
+    height: 20vh;
+    min-height: 350px;
+    margin: auto;
+    background-size: contain;
+  }
+
+  .list li {
+    padding: .3vw;
+    width: 40vw;
+    margin: auto;
+  }
+
+  .buttons {
+    width: 40vw;
+    height: 4vh;
+    background-color: transparent;
+    border: none;
+    font-size: 3vh;
+    font-family: 'Press Start 2P', cursive;
+  }
+}
+
 @media screen and (orientation: portrait) and (max-width: 750px) {
   .logo {
     width: 100vw;
@@ -121,6 +147,7 @@ svg, canvas {
     margin: auto;
     background-size: contain;
   }
+
   .list li {
     padding: .3vw;
     width: 50vw;
@@ -150,7 +177,7 @@ svg, canvas {
     margin:auto;
   }
 
-  svg, canvas {
+  canvas {
     width: calc(100vw - 20px);;
     height: calc(100vh - 50px);
     max-height: 550px;

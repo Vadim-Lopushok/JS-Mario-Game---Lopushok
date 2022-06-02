@@ -30,7 +30,7 @@ function switchToStateFromURLHash () {
       pageHTML += '<div class=\'game-block\'>'
       pageHTML += '<input class=\'buttons main-menu-bottom\' type=\'button\' value=\'Back To Menu\' onclick=\'switchToMainPage()\'>'
       pageHTML += '<div class=\'main-field\' style=\'text-align : center;\'>'
-      pageHTML += '<svg id=\'field\' style=\'\'></svg>'
+      pageHTML += '<canvas id=\'field\' style=\'\'></canvas>'
       break
     case 'Rules':
       pageHTML += '<input class=\'buttons main-menu-bottom\' type=button value=\'Back To Menu\' onclick=\'switchToMainPage()\'>'
@@ -40,7 +40,6 @@ function switchToStateFromURLHash () {
       pageHTML += '<p>Press W to jump!</p>'
       pageHTML += '<p>Press D to run to the right!</p>'
       pageHTML += '<p>Press the space bar in an enhanced form to release fireballs!</p>'
-      pageHTML += '<br>'
       pageHTML += '<p>GOOD LUCK!</p>'
       pageHTML += '</div>'
       break
@@ -76,7 +75,7 @@ function switchToMainPage () {
   switchToState({ pagename: 'Main' })
 }
 
-function switchToGamePage (photoId) {
+function switchToGamePage () {
   switchToState({ pagename: 'Game' })
 }
 

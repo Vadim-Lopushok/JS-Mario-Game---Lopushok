@@ -44,19 +44,3 @@ export function objectsTouch({object1, object2}) {
       object1.position.y + object1.height >= object2.position.y &&
       object1.position.y <= object2.position.y + object2.height);
 }
-
-/*export function  createImage(imageSrc) {
-  const image = new Image()
-  image.src = imageSrc
-  return image
-}
-
-export function createImageAsync(imageSrc) {
-  return new Promise((resolve) => {
-    const image = new Image()
-    image.onload = () => {
-      resolve(image)
-    }
-    image.src = imageSrc
-  })
-}*/

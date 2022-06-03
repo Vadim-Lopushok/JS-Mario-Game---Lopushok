@@ -2,10 +2,12 @@
   font-family: 'Press Start 2P', cursive;
   src: url(../fonts/PressStart2P-Regular.ttf);
 }
+
 * {
   margin: 0;
-  padding:0;
+  padding: 0;
 }
+
 body {
   height: 100vh;
   width: 100vw;
@@ -18,12 +20,11 @@ body {
 }
 
 .logo {
-  margin: auto;
   width: 70vw;
   height: 60vh;
 }
 
-.minilogo {
+.minilogo, .logo {
   margin: auto;
 }
 
@@ -41,6 +42,7 @@ body {
   font-size: 3vh;
   font-family: 'Press Start 2P', cursive;
 }
+
 .buttons:hover, button:hover {
   cursor: pointer;
   color: #05dbf8;
@@ -63,15 +65,8 @@ body {
   text-align: center;
 }
 
-.records-logo {
-  display: flex;
-  justify-content: center;
-}
-
-.records-logo img {
-  margin-top: -70px;
-  width: 100px;
-  height: 100px;
+.textHistory p {
+  font-size: 1.5em;
 }
 
 .user-name,
@@ -84,7 +79,7 @@ body {
 .user-name h2,
 .user-score h2 {
   margin: 10px;
-  color: #0385c1;
+  color: #05dbf8;
 }
 
 .user-name div,
@@ -144,7 +139,7 @@ canvas {
     max-width: 75%;
   }
 
-  .history-heading h2{
+  .history-heading h2 {
     font-size: 1.3em;
   }
 
@@ -152,7 +147,7 @@ canvas {
     font-size: 1.1em;
   }
 
-  .history-text p{
+  .history-text p {
     font-size: 1.3em;
   }
 
@@ -162,18 +157,18 @@ canvas {
     margin: 5px;
   }
 
-  .minilogo img{
+  .minilogo img {
     width: 100px;
     height: 100px;
   }
 
-  .wrapper .cont{
+  .wrapper .cont {
     font-size: .8em;
     margin: 0;
     padding: 0;
   }
 
-  .cont div{
+  .cont div {
     font-size: .8em;
   }
 
@@ -186,29 +181,33 @@ canvas {
     font-size: 2em;
   }
 
-  .cont div{
+  .cont div {
     font-size: 1.8em;
   }
 }
 
-@media (max-width: 850px) {
+@media (min-width: 481px) and (max-width: 850px) {
+  canvas {
+    max-width: 100%;
+  }
+
   .config {
     margin: 10px;
     padding: 0;
   }
 
-  .minilogo img{
+  .minilogo img {
     width: 100px;
     height: 100px;
   }
 
   .main-menu {
-    font-size: 1.5em;
+    font-size: 1.1em;
     margin-bottom: 2.5em;
   }
 
   .buttons {
-    font-size: 1.5em;
+    font-size: 1.3em;
   }
 
   .configH {
@@ -235,8 +234,8 @@ canvas {
     font-size: 0.9em;
   }
 
-  .history-text {
-    font-size: .8em;
+  .textHistory p {
+    font-size: .7em;
     text-indent: 6px;
   }
 
@@ -247,6 +246,10 @@ canvas {
   .wrapper .cont {
     margin: 10px auto;
     padding: 10px;
+    font-size: 1.1em;
+  }
+
+  .cont div {
     font-size: 1.1em;
   }
 
@@ -264,7 +267,7 @@ canvas {
   }
 }
 
-@media (max-width: 395px) {
+@media (max-width: 480px) {
   .wrapper {
     height: 300px;
   }
@@ -277,9 +280,15 @@ canvas {
   .main-menu {
     display: flex;
     margin-bottom: 2.5em;
+    font-size: 1em;
   }
+
   .history {
     font-size: 1.2em;
+  }
+
+  .history .textHistory {
+    font-size: .7em;
   }
 
   .btn {
@@ -295,18 +304,37 @@ canvas {
 
   .logo {
     width: 100vw;
+    height: 45vh;
+    margin-top: 2em;
+  }
+
+  canvas {
+    max-width: 100%;
+  }
+
+  .wrapper .cont, .user-name, .user-score, .buttons {
+    font-size: .8em;
+  }
+
+  .textHistory p {
+    font-size: 1.1em;
   }
 }
 
 @media (max-width: 280px) {
   .btn {
-    font-size: .8em;
-  }
-  .history-text {
-    font-size: .6em;
+    font-size: 1.1em;
   }
 
-  .cont div{
+  .textHistory p, .historyHeading {
+    font-size: .8em;
+  }
+
+  .cont div {
+    font-size: 1.3em;
+  }
+
+  .main-menu, b {
     font-size: 1.3em;
   }
 }

@@ -45,7 +45,6 @@ function SwitchToState(State) {
 
 export function SwitchToMainPage() {
   SwitchToState({pageName: 'Main'});
-  document.location.reload();
 }
 
 export function SwitchToConfigPage() {
@@ -66,3 +65,7 @@ export function SwitchToNewGamePage() {
 }
 
 SwitchToStateFromURLHash();
+
+window.addEventListener('popstate', () => {
+  location.reload();
+}, false);

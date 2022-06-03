@@ -1,4 +1,4 @@
-import { c } from '../game.js'
+import { ctx } from '../game.js'
 
 export class Platform {
   constructor({x, y, image, block, text}) {
@@ -17,12 +17,12 @@ export class Platform {
   }
 
   draw() {
-    c.drawImage(this.image, this.position.x, this.position.y);
+    ctx.drawImage(this.image, this.position.x, this.position.y);
 
     if (this.text) {
-      c.font = '20px Arial';
-      c.fillStyle = 'red';
-      c.fillText(this.text, this.position.x, this.position.y);
+      ctx.font = '20px Arial';
+      ctx.fillStyle = 'red';
+      ctx.fillText(this.text, this.position.x, this.position.y);
     }
   }
 

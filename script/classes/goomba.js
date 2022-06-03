@@ -1,5 +1,5 @@
 import { images } from '../images/images.js'
-import { c, canvas, gravity } from '../game.js'
+import { ctx, canvas, gravity } from '../game.js'
 
 class Goomba {
   constructor({
@@ -26,7 +26,7 @@ class Goomba {
   }
 
   draw() {
-    c.drawImage(this.image, 130 * this.frames, 0, 130, 150, this.position.x,
+    ctx.drawImage(this.image, 130 * this.frames, 0, 130, 150, this.position.x,
       this.position.y, this.width, this.height);
   }
 

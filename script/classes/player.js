@@ -1,5 +1,5 @@
 import { images } from '../images/images.js'
-import { c, canvas, gravity } from '../game.js'
+import { ctx, canvas, gravity } from '../game.js'
 
 export class Player {
   constructor() {
@@ -60,14 +60,14 @@ export class Player {
   }
 
   draw() {
-    c.save();
-    c.globalAlpha = this.opacity;
-    c.fillStyle = 'rgba(255, 0, 0, 0)';
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
-    c.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0,
+    ctx.save();
+    ctx.globalAlpha = this.opacity;
+    ctx.fillStyle = 'rgba(255, 0, 0, 0)';
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    ctx.drawImage(this.currentSprite, this.currentCropWidth * this.frames, 0,
       this.currentCropWidth, 353, this.position.x, this.position.y,
       this.width, this.height);
-    c.restore();
+    ctx.restore();
   }
 
   update() {

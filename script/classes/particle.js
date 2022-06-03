@@ -1,4 +1,4 @@
-import { c, canvas, gravity } from '../game.js'
+import { ctx, canvas, gravity } from '../game.js'
 
 class Particle {
   constructor({ position, velocity, radius, color = '#654428', fireball = false, fades = false, }) {
@@ -19,14 +19,14 @@ class Particle {
   }
 
   draw() {
-    c.save();
-    c.globalAlpha = this.opacity;
-    c.beginPath();
-    c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, false);
-    c.fillStyle = this.color;
-    c.fill();
-    c.closePath();
-    c.restore();
+    ctx.save();
+    ctx.globalAlpha = this.opacity;
+    ctx.beginPath();
+    ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.closePath();
+    ctx.restore();
   }
 
   update() {

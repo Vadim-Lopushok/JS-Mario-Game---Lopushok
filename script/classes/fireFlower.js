@@ -1,5 +1,5 @@
 import { images } from '../images/images.js'
-import { c, canvas, gravity } from '../game.js'
+import { ctx, canvas, gravity } from '../game.js'
 
 class FireFlower {
   constructor({position, velocity}) {
@@ -20,7 +20,7 @@ class FireFlower {
   }
 
   draw() {
-    c.drawImage(this.image, this.width * this.frames, 0, 56, 60,
+    ctx.drawImage(this.image, this.width * this.frames, 0, 56, 60,
       this.position.x, this.position.y, this.width, this.height);
   }
 

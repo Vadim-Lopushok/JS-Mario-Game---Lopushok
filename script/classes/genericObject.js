@@ -1,4 +1,4 @@
-import { c } from '../game.js'
+import { ctx } from '../game.js'
 
 export class GenericObject {
   constructor({x, y, image}) {
@@ -15,7 +15,7 @@ export class GenericObject {
   }
 
   draw() {
-    c.drawImage(this.image, this.position.x, this.position.y);
+    ctx.drawImage(this.image, this.position.x, this.position.y);
   }
 
   update() {

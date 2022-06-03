@@ -13,14 +13,8 @@ import {
   objectsTouch,
 } from './utils.js'
 
-/*
-export default class Game {
-  constructor () {}
-}
-*/
-
-  export const canvas = document.createElement('canvas');
-  export const c = canvas.getContext('2d');
+  export const canvas = document.getElementById('canvas');
+  export const ctx = canvas.getContext('2d');
 
   canvas.width = 1024;
   canvas.height = 576;
@@ -629,8 +623,8 @@ export default class Game {
 
   function animate() {
     requestAnimationFrame(animate);
-    c.fillStyle = 'white';
-    c.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     genericObjects.forEach(GenericObject => {
       GenericObject.update();

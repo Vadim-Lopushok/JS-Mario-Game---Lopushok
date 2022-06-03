@@ -65,7 +65,3 @@ export function SwitchToNewGamePage() {
 }
 
 SwitchToStateFromURLHash();
-
-window.addEventListener('popstate', () => {
-  location.reload();
-}, false);

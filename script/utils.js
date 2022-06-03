@@ -225,6 +225,10 @@ export function initGame() {
   let wrapper = document.getElementById('wrapper');
   wrapper.appendChild(initCanvas('canvas', 'canvas', 1024, 576));
   wrapper.appendChild(initButton(SwitchToMainPage));
+
+  window.addEventListener('popstate', () => {
+    location.reload();
+  }, false);
 }
 
 export function initCanvas(id, className, width, height) {

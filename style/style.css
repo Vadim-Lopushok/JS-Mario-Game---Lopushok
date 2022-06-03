@@ -13,48 +13,26 @@ body {
   background-size: cover;
 }
 
-.logo {
-  margin: auto;
-  width: 100vw;
-  height: 60vh;
-  background: url(../sprites/background/logoMario.png) center no-repeat;
+.wrapper {
+  font-size: 1rem;
 }
 
-.main {
+.logo {
+  margin: auto;
+  width: 70vw;
+  height: 60vh;
+}
+
+.minilogo {
+  margin: auto;
+}
+
+.main, #wrapper {
   padding-top: 5vh;
   text-align: center;
 }
 
-.main-field {
-  margin:auto;
-  width: 100vw;
-  height: 100vh;
-}
-
-canvas {
-  margin-top: 5vh;
-  width: 700px;
-  height: 550px;
-  border: solid 4px #092b6e;
-}
-
-.list-block {
-  margin:auto;
-}
-
-.list {
-  margin-top: -5vh;
-  list-style: none;
-}
-
-.list li {
-  margin: auto;
-  padding: .1vw;
-  width: 40vw;
-  text-align: center;
-}
-
-.buttons {
+.btn, button {
   width: 40vw;
   max-width: 260px;
   height: 6vh;
@@ -63,142 +41,272 @@ canvas {
   font-size: 3vh;
   font-family: 'Press Start 2P', cursive;
 }
-.buttons:hover {
+.buttons:hover, button:hover {
   cursor: pointer;
   color: #05dbf8;
 }
 
-.main-menu-bottom{
-  position: absolute;
-  top: 10vh;
-  left: 1vh;
+.buttons {
+  display: flex;
+  justify-content: center;
 }
 
-.new-game-bottom {
-  position: absolute;
-  top: 20vh;
-  left: 1vh;
-  display: none;
-}
-
-
-.name-field {
-  width: 55vw;
-  height: 6vh;
-  font-size: 5vh;
-}
-
-.rotate-to-portrait {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  text-align: center;
-  background-color: #dadada;
-}
-.rotate-to-portrait span{
-  display: inline-block;
-  margin-top: 40vh;
-  font-size: 5vh;
-  font-family: 'Press Start 2P', cursive;
-}
-
-.rules {
-  padding-top: 30vh;
+.config {
   text-align: center;
   font-size: 3vh;
   font-family: 'Press Start 2P', cursive;
 }
 
-.rules .title {
-  padding: 3vh;
-  font-size: 5vh;
+.config .title {
+  margin: 20px;
+  font-size: 1rem;
+  text-align: center;
 }
 
-@media (min-width: 751px) and (max-width:1200px) {
-  .logo {
-    width: 50vw;
-    height: 20vh;
-    min-height: 350px;
-    margin: auto;
-    background-size: contain;
+.records-logo {
+  display: flex;
+  justify-content: center;
+}
+
+.records-logo img {
+  margin-top: -70px;
+  width: 100px;
+  height: 100px;
+}
+
+.user-name,
+.user-score {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1em;
+  text-align: center;
+}
+
+.user-name h2,
+.user-score h2 {
+  margin: 10px;
+  color: #0385c1;
+}
+
+.user-name div,
+.user-score div {
+  padding: 5px;
+  color: #03134b;
+}
+
+.user-score {
+  width: 100px;
+}
+
+.wrapper .cont {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin: 20px;
+  padding: 20px;
+  font-size: 1rem;
+}
+
+canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.history {
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+}
+
+.history-heading,
+.history-info {
+  padding: 5px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1.3em;
+}
+
+.history-text {
+  font-family: Arial, sans-serif;
+  font-size: 1.2em;
+  font-weight: 500;
+  text-indent: 10px;
+}
+
+.history-text p {
+  text-align: justify;
+}
+
+@media (max-width: 1280px) {
+  canvas {
+    max-width: 75%;
   }
 
-  .list li {
-    padding: .3vw;
-    width: 40vw;
-    margin: auto;
+  .history-heading h2{
+    font-size: 1.3em;
+  }
+
+  .history div {
+    font-size: 1.1em;
+  }
+
+  .history-text p{
+    font-size: 1.3em;
+  }
+
+  .btn {
+    font-size: 1.8em;
+    padding: 10px;
+    margin: 5px;
+  }
+
+  .minilogo img{
+    width: 100px;
+    height: 100px;
+  }
+
+  .wrapper .cont{
+    font-size: .8em;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cont div{
+    font-size: .8em;
+  }
+
+  .history-heading,
+  .history-info {
+    font-size: 2.2em;
+  }
+
+  .history-text {
+    font-size: 2em;
+  }
+
+  .cont div{
+    font-size: 1.8em;
+  }
+}
+
+@media (max-width: 850px) {
+  .config {
+    margin: 10px;
+    padding: 0;
+  }
+
+  .minilogo img{
+    width: 100px;
+    height: 100px;
+  }
+
+  .main-menu {
+    font-size: 1.5em;
+    margin-bottom: 2.5em;
   }
 
   .buttons {
-    width: 40vw;
-    height: 4vh;
-    background-color: transparent;
-    border: none;
-    font-size: 3vh;
-    font-family: 'Press Start 2P', cursive;
+    font-size: 1.5em;
   }
-}
 
-@media screen and (orientation: portrait) and (max-width: 750px) {
+  .configH {
+    font-size: 0.8em;
+  }
+
+  .configI {
+    font-size: 0.7em;
+    text-indent: 6px;
+  }
+
+  img {
+    margin-top: -40px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .history {
+    font-size: 1.5em;
+  }
+
+  .history-heading,
+  .history-info {
+    font-size: 0.9em;
+  }
+
+  .history-text {
+    font-size: .8em;
+    text-indent: 6px;
+  }
+
+  .btn {
+    margin: 5px auto;
+  }
+
+  .wrapper .cont {
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 1.1em;
+  }
+
+  .user-name,
+  .user-score {
+    font-size: 1em;
+  }
+
+  .user-name {
+    width: 150px;
+  }
+
   .logo {
     width: 100vw;
-    height: 50vh;
-    min-height: 350px;
-    margin: auto;
-    background-size: contain;
-  }
-
-  .list li {
-    padding: .3vw;
-    width: 50vw;
-    margin: auto;
-  }
-
-  .buttons {
-    width: 50vw;
-    height: 5vh;
-    background-color: transparent;
-    border: none;
-    font-size: 3vh;
-    font-family: 'Press Start 2P', cursive;
-  }
-
-  .main-menu-bottom {
-    top: 0;
-    left: 0;
-    right: 0;
-    margin:auto;
-  }
-
-  .new-game-bottom {
-    top: 50vh;
-    left: 0;
-    right: 0;
-    margin:auto;
-  }
-
-  canvas {
-    width: calc(100vw - 20px);;
-    height: calc(100vh - 50px);
-    max-height: 550px;
-  }
-
-  .list li {
-    padding-top: 1.5vh;
-  }
-
-  .save-record {
-    width: 80vw;
-    height: 22vh;
   }
 }
 
-@media screen and (orientation: landscape) and (max-width: 700px) {
-  .logo {
-    background: url(../sprites/background/marioBG.jpg) center no-repeat;
+@media (max-width: 395px) {
+  .wrapper {
+    height: 300px;
   }
 
-  .buttons[value="New Game"] {
-    display: none;
+  .minilogo img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .main-menu {
+    display: flex;
+    margin-bottom: 2.5em;
+  }
+  .history {
+    font-size: 1.2em;
+  }
+
+  .btn {
+    align-items: center;
+    padding: 0;
+    margin: 5px auto;
+    width: 125px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+
+  .logo {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 280px) {
+  .btn {
+    font-size: .8em;
+  }
+  .history-text {
+    font-size: .6em;
+  }
+
+  .cont div{
+    font-size: 1.3em;
   }
 }
